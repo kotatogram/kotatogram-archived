@@ -25,6 +25,8 @@ public:
 
 };
 
+void SetMonospaceFont(const QString &familyName);
+
 void registerModule(ModuleBase *module);
 
 [[nodiscard]] QColor EnsureContrast(const QColor &over, const QColor &under);
