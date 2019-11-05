@@ -39,15 +39,55 @@ uint32 fontKey(int size, uint32 flags, int family) {
 	return (((uint32(family) << 10) | uint32(size)) << 4) | flags;
 }
 
+QString RemoveSemiboldFromName(const QString &familyName) {
+	auto removedSemibold = familyName;
+	removedSemibold.remove("Semibold", Qt::CaseInsensitive);
+	return removedSemibold.trimmed();
+}
+
+bool IsRealSemibold(const QString &familyName) {
+	const auto removedSemibold = RemoveSemiboldFromName(familyName);
+
+	QFont originalFont(familyName);
+	QFont withoutSemiboldFont(removedSemibold);
+	withoutSemiboldFont.setStyleName("Semibold");
+
+	QFontInfo originalFontInfo(originalFont);
+	QFontInfo withoutSemiboldInfo(withoutSemiboldFont);
+
+	if (originalFontInfo.family().trimmed().compare(familyName, Qt::CaseInsensitive) &&
+		!withoutSemiboldInfo.family().trimmed().compare(removedSemibold, Qt::CaseInsensitive) &&
+		!withoutSemiboldInfo.styleName().trimmed().compare("Semibold", Qt::CaseInsensitive)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+QString ParseFamilyName(const QString &familyName) {
+	if (IsRealSemibold(familyName)) {
+		return RemoveSemiboldFromName(familyName);
+	} else {
+		return familyName;
+	}
+}
+
 bool ValidateFont(const QString &familyName, int flags = 0) {
-	QFont checkFont(familyName);
+	const auto parsedFamily = ParseFamilyName(familyName);
+
+	QFont checkFont(parsedFamily);
 	checkFont.setPixelSize(13);
 	checkFont.setBold(flags & style::internal::FontBold);
 	checkFont.setItalic(flags & style::internal::FontItalic);
 	checkFont.setUnderline(flags & style::internal::FontUnderline);
 	checkFont.setStyleStrategy(QFont::PreferQuality);
+
+	if (IsRealSemibold(familyName)) {
+		checkFont.setStyleName("Semibold");
+	}
+
 	auto realFamily = QFontInfo(checkFont).family();
-	if (realFamily.trimmed().compare(familyName, Qt::CaseInsensitive)) {
+	if (realFamily.trimmed().compare(parsedFamily, Qt::CaseInsensitive)) {
 		UI_LOG(("Font Error: could not resolve '%1' font, got '%2'.").arg(familyName).arg(realFamily));
 		return false;
 	}
@@ -129,6 +169,10 @@ QString Overrides[FontTypesCount];
 
 } // namespace
 
+QString CustomMainFont;
+QString CustomSemiboldFont;
+bool CustomSemiboldIsBold = false;
+
 void StartFonts() {
 	if (Started) {
 		return;
@@ -173,6 +217,17 @@ void StartFonts() {
 		QFont::insertSubstitutions(name, list);
 	}
 #endif // Q_OS_MAC
+
+	if (!CustomMainFont.isEmpty() && ValidateFont(CustomMainFont)) {
+		Overrides[FontTypeRegular] = CustomMainFont;
+		Overrides[FontTypeRegularItalic] = CustomMainFont;
+		Overrides[FontTypeBold] = CustomMainFont;
+		Overrides[FontTypeBoldItalic] = CustomMainFont;
+	}
+	if (!CustomSemiboldFont.isEmpty() && ValidateFont(CustomSemiboldFont)) {
+		Overrides[FontTypeSemibold] = CustomSemiboldFont;
+		Overrides[FontTypeSemiboldItalic] = CustomSemiboldFont;
+	}
 }
 
 QString GetPossibleEmptyOverride(const QString &familyName, int32 flags) {
@@ -220,7 +275,7 @@ int registerFontFamily(const QString &family) {
 }
 
 FontData::FontData(int size, uint32 flags, int family, Font *other)
-: f(GetFontOverride(fontFamilies[family], flags))
+: f(ParseFamilyName(GetFontOverride(fontFamilies[family], flags)))
 , m(f)
 , _size(size)
 , _flags(flags)
@@ -235,6 +290,8 @@ FontData::FontData(int size, uint32 flags, int family, Font *other)
 	f.setPixelSize(size);
 	if (_flags & FontBold) {
 		f.setBold(true);
+	} else if (fontFamilies[family] == "Open Sans Semibold" && CustomSemiboldIsBold) {
+		f.setBold(true);
 #ifdef DESKTOP_APP_USE_PACKAGED_FONTS
 	} else if (fontFamilies[family] == "Open Sans Semibold") {
 		f.setWeight(QFont::DemiBold);
@@ -244,6 +301,10 @@ FontData::FontData(int size, uint32 flags, int family, Font *other)
 	f.setUnderline(_flags & FontUnderline);
 	f.setStrikeOut(_flags & FontStrikeOut);
 	f.setStyleStrategy(QFont::PreferQuality);
+
+	if (IsRealSemibold(GetFontOverride(fontFamilies[family], flags))) {
+		f.setStyleName("Semibold");
+	}
 
 	m = QFontMetrics(f);
 	height = m.height();

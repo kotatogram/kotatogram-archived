@@ -51,6 +51,9 @@ void ResolveMonospaceFont() {
 			family = attempt;
 		}
 	};
+	if (!CustomMonospaceFont.isEmpty()) {
+		tryFont(CustomMonospaceFont);
+	}
 	tryFont("Consolas");
 	tryFont("Liberation Mono");
 	tryFont("Menlo");
@@ -64,6 +67,8 @@ void ResolveMonospaceFont() {
 }
 
 } // namespace
+
+QString CustomMonospaceFont;
 
 void registerModule(ModuleBase *module) {
 	StyleModules().push_back(module);
