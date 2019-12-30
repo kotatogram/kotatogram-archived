@@ -269,6 +269,10 @@ bool Manager::readCustomFile() {
 			SetDialogListLines(v);
 		}
 	});
+
+	ReadBoolOption(settings, "disable_up_edit", [&](auto v) {
+		cSetDisableUpEdit(v);
+	});
 	return true;
 }
 
@@ -304,6 +308,7 @@ void Manager::writeDefaultFile() {
 	settings.insert(qsl("net_speed_boost"), QJsonValue(QJsonValue::Null));
 	settings.insert(qsl("show_phone_in_drawer"), cShowPhoneInDrawer());
 	settings.insert(qsl("chat_list_lines"), DialogListLines());
+	settings.insert(qsl("disable_up_edit"), cDisableUpEdit());
 
 	auto settingsScales = QJsonArray();
 	settings.insert(qsl("scales"), settingsScales);
@@ -357,6 +362,7 @@ void Manager::writeCurrentSettings() {
 	settings.insert(qsl("net_speed_boost"), cNetSpeedBoost());
 	settings.insert(qsl("show_phone_in_drawer"), cShowPhoneInDrawer());
 	settings.insert(qsl("chat_list_lines"), DialogListLines());
+	settings.insert(qsl("disable_up_edit"), cDisableUpEdit());
 
 	auto settingsScales = QJsonArray();
 	auto currentScales = cInterfaceScales();
