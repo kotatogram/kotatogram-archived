@@ -281,3 +281,5 @@ int DialogListLines() {
 rpl::producer<int> DialogListLinesChanges() {
 	return gDialogListLines.changes();
 }
+
+bool gDisableUpEdit = false;
