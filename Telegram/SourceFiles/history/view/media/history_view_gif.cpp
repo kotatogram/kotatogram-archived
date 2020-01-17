@@ -32,6 +32,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "data/data_streaming.h"
 #include "data/data_document.h"
 #include "data/data_file_origin.h"
+#include "mainwidget.h"
 #include "app.h"
 #include "styles/style_history.h"
 
@@ -902,6 +903,27 @@ void Gif::drawGrouped(
 
 	const auto roundRadius = ImageRoundRadius::Large;
 
+	auto drawHighlighted = [&](auto painterCallback) {
+		const auto animms = _parent->delegate()->elementHighlightTime(_parent);
+		const auto realId = _realParent->id;
+		const auto mainWidget = App::main();
+		const auto highlightedRealId = mainWidget->highlightedOriginalId();
+		if (realId != highlightedRealId
+			&& animms
+			&& animms < st::activeFadeInDuration + st::activeFadeOutDuration) {
+			const auto dt = (animms <= st::activeFadeInDuration)
+				? ((animms / float64(st::activeFadeInDuration)))
+				: (1. - (animms - st::activeFadeInDuration)
+					/ float64(st::activeFadeOutDuration));
+			const auto o = p.opacity();
+			p.setOpacity(o - dt * 0.8);
+			painterCallback();
+			p.setOpacity(o);
+		} else {
+			painterCallback();
+		}
+	};
+
 	if (streamed) {
 		const auto paused = autoPaused;
 		auto request = ::Media::Streaming::FrameRequest();
@@ -924,20 +946,29 @@ void Gif::drawGrouped(
 				activeOwnPlaying->frozenRequest = request;
 				activeOwnPlaying->frozenFrame = streamed->frame(request);
 			}
-			p.drawImage(geometry, activeOwnPlaying->frozenFrame);
+
+			drawHighlighted([&]() {
+				p.drawImage(geometry, activeOwnPlaying->frozenFrame);
+			});
 		} else {
 			if (activeOwnPlaying) {
 				activeOwnPlaying->frozenFrame = QImage();
 				activeOwnPlaying->frozenStatusText = QString();
 			}
-			p.drawImage(geometry, streamed->frame(request));
+
+			drawHighlighted([&]() {
+				p.drawImage(geometry, streamed->frame(request));
+			});
+
 			if (!paused) {
 				streamed->markFrameShown();
 			}
 		}
 	} else {
 		validateGroupedCache(geometry, corners, cacheKey, cache);
-		p.drawPixmap(geometry, *cache);
+		drawHighlighted([&]() {
+			p.drawPixmap(geometry, *cache);
+		});
 	}
 
 	if (selected) {

@@ -290,6 +290,8 @@ public:
 	void notify_userIsBotChanged(UserData *bot);
 	void notify_historyMuteUpdated(History *history);
 
+	MsgId highlightedOriginalId() const;
+
 	void closeBothPlayers();
 
 	bool isQuitPrevent();
