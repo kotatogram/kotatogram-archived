@@ -117,7 +117,32 @@ bool Manager::readCustomFile() {
 	if (settings.isEmpty()) {
 		return true;
 	}
-	
+
+	const auto settingsFontsIt = settings.constFind(qsl("fonts"));
+
+	if (settingsFontsIt != settings.constEnd() && (*settingsFontsIt).isObject()) {
+		const auto settingsFonts = (*settingsFontsIt).toObject();
+
+		const auto settingsFontsMain = settingsFonts.constFind(qsl("main"));
+		if (settingsFontsMain != settingsFonts.constEnd() && (*settingsFontsMain).isString()) {
+			cSetMainFont((*settingsFontsMain).toString());
+		}
+
+		const auto settingsFontsSemibold = settingsFonts.constFind(qsl("semibold"));
+		if (settingsFontsSemibold != settingsFonts.constEnd() && (*settingsFontsSemibold).isString()) {
+			cSetSemiboldFont((*settingsFontsSemibold).toString());
+		}
+
+		const auto settingsFontsSemiboldIsBold = settingsFonts.constFind(qsl("semibold_is_bold"));
+		if (settingsFontsSemiboldIsBold != settingsFonts.constEnd() && (*settingsFontsSemiboldIsBold).isBool()) {
+			cSetSemiboldFontIsBold((*settingsFontsSemiboldIsBold).toBool());
+		}
+
+		const auto settingsFontsMonospace = settingsFonts.constFind(qsl("monospaced"));
+		if (settingsFontsMonospace != settingsFonts.constEnd() && (*settingsFontsMonospace).isString()) {
+			cSetMonospaceFont((*settingsFontsMonospace).toString());
+		}
+	}
 	return true;
 }
 
@@ -137,6 +162,13 @@ void Manager::writeDefaultFile() {
 	auto settings = QJsonObject();
 	settings.insert(qsl("version"), QString::number(AppKotatoVersion));
 
+	auto settingsFonts = QJsonObject();
+	settingsFonts.insert(qsl("main"), qsl("Open Sans"));
+	settingsFonts.insert(qsl("semibold"), qsl("Open Sans Semibold"));
+	settingsFonts.insert(qsl("semibold_is_bold"), false);
+	settingsFonts.insert(qsl("monospaced"), qsl("Consolas"));
+
+	settings.insert(qsl("fonts"), settingsFonts);
 	auto document = QJsonDocument();
 	document.setObject(settings);
 	file.write(document.toJson(QJsonDocument::Indented));
@@ -159,6 +191,24 @@ void Manager::writeCurrentSettings() {
 	file.write(customHeader);
 
 	auto settings = QJsonObject();
+
+	auto settingsFonts = QJsonObject();
+	
+	if (!cMainFont().isEmpty()) {
+		settingsFonts.insert(qsl("main"), cMainFont());
+	}
+
+	if (!cSemiboldFont().isEmpty()) {
+		settingsFonts.insert(qsl("semibold"), cSemiboldFont());
+	}
+
+	if (!cMonospaceFont().isEmpty()) {
+		settingsFonts.insert(qsl("monospaced"), cMonospaceFont());
+	}
+
+	settingsFonts.insert(qsl("semibold_is_bold"), cSemiboldFontIsBold());
+
+	settings.insert(qsl("fonts"), settingsFonts);
 
 	auto document = QJsonDocument();
 	document.setObject(settings);
