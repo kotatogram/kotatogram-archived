@@ -33,5 +33,13 @@
 	"ktg_outdated_now": "Чтобы приложение Kotatogram могло получать обновления.",
 	"ktg_mac_menu_show": "Показать Kotatogram",
 	"ktg_settings_kotato": "Настройки Kotatogram",
-	"ktg_user_status_unaccessible": "аккаунт недоступен"
+	"ktg_user_status_unaccessible": "аккаунт недоступен",
+		"ktg_chat_status_subscribers": {
+		"one": "{count} подписчик",
+		"few": "{count} подписчика",
+		"many": "{count} подписчиков",
+		"other": "{count} подписчиков"
+	},
+	"ktg_profile_subscribers_section": "Подписчики",
+	"ktg_manage_peer_subscribers": "Подписчики"
 }
