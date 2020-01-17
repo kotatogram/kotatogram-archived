@@ -138,6 +138,8 @@ public:
 	void sendFileConfirmed(const std::shared_ptr<FileLoadResult> &file,
 		const std::optional<FullMsgId> &oldId = std::nullopt);
 
+	static bool hasHiddenPinnedMessage(not_null<PeerData*> peer);
+	static bool switchPinnedHidden(not_null<PeerData*> peer, bool hidden);
 	void updateControlsVisibility();
 	void updateControlsGeometry();
 
@@ -387,7 +389,7 @@ private:
 	void toggleMuteUnmute();
 	void toggleKeyboard(bool manual = true);
 	void startBotCommand();
-	void hidePinnedMessage();
+	void hidePinnedMessage(bool force = false);
 	void cancelFieldAreaState();
 	void unblockUser();
 	void sendBotStartCommand();
