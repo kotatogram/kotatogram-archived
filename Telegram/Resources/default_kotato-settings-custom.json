@@ -9,5 +9,6 @@
     //     "monospaced": "Consolas"
     // },
     // "big_emoji_outline": false,
+    // "always_show_scheduled": true,
     // "scales": []
 }
