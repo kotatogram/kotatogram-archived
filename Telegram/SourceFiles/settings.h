@@ -183,3 +183,7 @@ DeclareSetting(QString, MainFont);
 DeclareSetting(QString, SemiboldFont);
 DeclareSetting(bool, SemiboldFontIsBold);
 DeclareSetting(QString, MonospaceFont);
+
+void SetBigEmojiOutline(bool enabled);
+[[nodiscard]] bool BigEmojiOutline();
+[[nodiscard]] rpl::producer<bool> BigEmojiOutlineChanges();
