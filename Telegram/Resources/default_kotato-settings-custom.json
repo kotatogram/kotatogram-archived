@@ -8,5 +8,6 @@
     //     "semibold_is_bold": false,
     //     "monospaced": "Consolas"
     // },
-    // "big_emoji_outline": true
+    // "big_emoji_outline": true,
+    // "scales": []
 }
