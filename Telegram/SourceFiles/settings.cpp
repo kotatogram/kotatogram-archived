@@ -209,3 +209,14 @@ rpl::producer<> UpdatedRecentEmoji() {
 
 QString gMainFont, gSemiboldFont, gMonospaceFont;
 bool gSemiboldFontIsBold = false;
+
+rpl::variable<bool> gBigEmojiOutline = true;
+void SetBigEmojiOutline(bool enabled) {
+	gBigEmojiOutline = enabled;
+}
+bool BigEmojiOutline() {
+	return gBigEmojiOutline.current();
+}
+rpl::producer<bool> BigEmojiOutlineChanges() {
+	return gBigEmojiOutline.changes();
+}
