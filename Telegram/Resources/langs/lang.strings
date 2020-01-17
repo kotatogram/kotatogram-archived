@@ -2307,4 +2307,6 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 "ktg_settings_kotato" = "Kotatogram Settings";
 
+"ktg_user_status_unaccessible" = "account inaccessible";
+
 // Keys finished
