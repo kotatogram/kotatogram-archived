@@ -199,6 +199,11 @@ bool Manager::readCustomFile() {
 			cSetMonospaceFont(v);
 		});
 	});
+
+	ReadBoolOption(settings, "big_emoji_outline", [&](auto v) {
+		SetBigEmojiOutline(v);
+	});
+	
 	return true;
 }
 
@@ -225,6 +230,9 @@ void Manager::writeDefaultFile() {
 	settingsFonts.insert(qsl("monospaced"), qsl("Consolas"));
 
 	settings.insert(qsl("fonts"), settingsFonts);
+
+	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
+
 	auto document = QJsonDocument();
 	document.setObject(settings);
 	file.write(document.toJson(QJsonDocument::Indented));
@@ -265,6 +273,8 @@ void Manager::writeCurrentSettings() {
 	settingsFonts.insert(qsl("semibold_is_bold"), cSemiboldFontIsBold());
 
 	settings.insert(qsl("fonts"), settingsFonts);
+
+	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
 
 	auto document = QJsonDocument();
 	document.setObject(settings);
