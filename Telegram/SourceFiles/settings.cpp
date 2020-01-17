@@ -220,3 +220,21 @@ bool BigEmojiOutline() {
 rpl::producer<bool> BigEmojiOutlineChanges() {
 	return gBigEmojiOutline.changes();
 }
+
+ScaleVector gInterfaceScales;
+
+bool HasCustomScales() {
+	return (!gInterfaceScales.empty());
+}
+
+bool AddCustomScale(int scale) {
+	if (gInterfaceScales.size() >= 6) {
+		return false;
+	}
+	gInterfaceScales.push_back(style::CheckScale(scale));
+	return true;
+}
+
+void ClearCustomScales() {
+	gInterfaceScales.clear();
+}
