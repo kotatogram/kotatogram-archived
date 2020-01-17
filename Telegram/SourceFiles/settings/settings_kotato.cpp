@@ -43,6 +43,20 @@ void SetupKotatoChats(not_null<Ui::VerticalLayout*> container) {
 
 	AddButton(
 		container,
+		tr::ktg_settings_emoji_outline(),
+		st::settingsButton
+	)->toggleOn(
+		rpl::single(BigEmojiOutline())
+	)->toggledValue(
+	) | rpl::filter([](bool enabled) {
+		return (enabled != BigEmojiOutline());
+	}) | rpl::start_with_next([](bool enabled) {
+		SetBigEmojiOutline(enabled);
+		KotatoSettings::Write();
+	}, container->lifetime());
+
+	AddButton(
+		container,
 		tr::ktg_settings_fonts(),
 		st::settingsButton
 	)->addClickHandler([=] {
