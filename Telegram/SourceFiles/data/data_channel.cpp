@@ -15,6 +15,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "data/data_folder.h"
 #include "data/data_location.h"
 #include "data/data_histories.h"
+#include "lang/lang_keys.h"
 #include "base/unixtime.h"
 #include "history/history.h"
 #include "observer_peer.h"
@@ -352,6 +353,26 @@ bool ChannelData::lastParticipantsRequestNeeded() const {
 			& MegagroupInfo::LastParticipantsOnceReceived)
 		|| (mgInfo->lastParticipantsStatus
 			& MegagroupInfo::LastParticipantsCountOutdated);
+}
+
+QString ChannelData::adminRank(not_null<UserData*> user) const {
+	if (!isGroupAdmin(user)) {
+		return QString();
+	}
+	const auto info = mgInfo.get();
+	const auto i = mgInfo->admins.find(peerToUser(user->id));
+	const auto custom = (i != mgInfo->admins.end())
+		? i->second
+		: (info->creator == user)
+		? info->creatorRank
+		: QString();
+	return !custom.isEmpty()
+		? custom
+		: (info->creator == user)
+		? tr::lng_owner_badge(tr::now)
+		: (i != mgInfo->admins.end())
+		? tr::lng_admin_badge(tr::now)
+		: QString();
 }
 
 auto ChannelData::unavailableReasons() const
