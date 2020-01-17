@@ -143,7 +143,7 @@ NotificationData::NotificationData(
 		qsl(MACRO_TO_STRING(TDESKTOP_LAUNCHER_FILENAME))
 			.remove(QRegExp(qsl("\\.desktop$"), Qt::CaseInsensitive));
 #else
-	_hints["desktop-entry"] = qsl("telegramdesktop");
+	_hints["desktop-entry"] = qsl("kotatogramdesktop");
 #endif
 
 	connect(_notificationInterface.get(),

@@ -187,16 +187,16 @@ QString getHomeDir() {
 } // namespace
 
 QString psAppDataPath() {
-	// Previously we used ~/.TelegramDesktop, so look there first.
-	// If we find data there, we should still use it.
-	auto home = getHomeDir();
-	if (!home.isEmpty()) {
-		auto oldPath = home + qsl(".TelegramDesktop/");
-		auto oldSettingsBase = oldPath + qsl("tdata/settings");
-		if (QFile(oldSettingsBase + '0').exists() || QFile(oldSettingsBase + '1').exists()) {
-			return oldPath;
-		}
-	}
+	// We should not use ~/.TelegramDesktop, since it's a fork.
+	
+	// auto home = getHomeDir();
+	// if (!home.isEmpty()) {
+	// 	auto oldPath = home + qsl(".TelegramDesktop/");
+	// 	auto oldSettingsBase = oldPath + qsl("tdata/settings");
+	// 	if (QFile(oldSettingsBase + '0').exists() || QFile(oldSettingsBase + '1').exists()) {
+	// 		return oldPath;
+	// 	}
+	// }
 
 	return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + '/';
 }
@@ -246,11 +246,11 @@ void RegisterCustomScheme() {
 		if (!QDir(apps).exists()) QDir().mkpath(apps);
 		if (!QDir(icons).exists()) QDir().mkpath(icons);
 
-		QString path = cWorkingDir() + qsl("tdata/"), file = path + qsl("telegramdesktop.desktop");
+		QString path = cWorkingDir() + qsl("tdata/"), file = path + qsl("kotatogramdesktop.desktop");
 		QDir().mkpath(path);
 		QFile f(file);
 		if (f.open(QIODevice::WriteOnly)) {
-			QString icon = icons + qsl("telegram.png");
+			QString icon = icons + qsl("kotatogram.png");
 			auto iconExists = QFile(icon).exists();
 			if (Local::oldSettingsVersion() < 10021 && iconExists) {
 				// Icon was changed.
@@ -268,13 +268,13 @@ void RegisterCustomScheme() {
 			s.setCodec("UTF-8");
 			s << "[Desktop Entry]\n";
 			s << "Version=1.0\n";
-			s << "Name=Telegram Desktop\n";
-			s << "Comment=Official desktop application for the Telegram messaging service\n";
+			s << "Name=Kotatogram Desktop\n";
+			s << "Comment=Experimental Telegram Desktop fork\n";
 			s << "TryExec=" << EscapeShell(QFile::encodeName(cExeDir() + cExeName())) << "\n";
 			s << "Exec=" << EscapeShell(QFile::encodeName(cExeDir() + cExeName())) << " -- %u\n";
-			s << "Icon=telegram\n";
+			s << "Icon=kotatogram\n";
 			s << "Terminal=false\n";
-			s << "StartupWMClass=TelegramDesktop\n";
+			s << "StartupWMClass=KotatogramDesktop\n";
 			s << "Type=Application\n";
 			s << "Categories=Network;InstantMessaging;Qt;\n";
 			s << "MimeType=x-scheme-handler/tg;\n";
@@ -284,10 +284,10 @@ void RegisterCustomScheme() {
 
 			if (RunShellCommand("desktop-file-install --dir=" + EscapeShell(QFile::encodeName(home + qsl(".local/share/applications"))) + " --delete-original " + EscapeShell(QFile::encodeName(file)))) {
 				DEBUG_LOG(("App Info: removing old .desktop file"));
-				QFile(qsl("%1.local/share/applications/telegram.desktop").arg(home)).remove();
+				QFile(qsl("%1.local/share/applications/kotatogram.desktop").arg(home)).remove();
 
 				RunShellCommand("update-desktop-database " + EscapeShell(QFile::encodeName(home + qsl(".local/share/applications"))));
-				RunShellCommand("xdg-mime default telegramdesktop.desktop x-scheme-handler/tg");
+				RunShellCommand("xdg-mime default kotatogramdesktop.desktop x-scheme-handler/tg");
 			}
 		} else {
 			LOG(("App Error: Could not open '%1' for write").arg(file));

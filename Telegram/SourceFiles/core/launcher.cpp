@@ -246,12 +246,12 @@ void Launcher::init() {
 
 	prepareSettings();
 
-	QApplication::setApplicationName(qsl("TelegramDesktop"));
+	QApplication::setApplicationName(qsl("KotatogramDesktop"));
 
 #ifdef TDESKTOP_LAUNCHER_FILENAME
 	QApplication::setDesktopFileName(qsl(MACRO_TO_STRING(TDESKTOP_LAUNCHER_FILENAME)));
 #elif defined(Q_OS_LINUX) && QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
-	QApplication::setDesktopFileName(qsl("telegramdesktop.desktop"));
+	QApplication::setDesktopFileName(qsl("kotatogramdesktop.desktop"));
 #endif
 
 #ifndef OS_MAC_OLD
@@ -279,7 +279,7 @@ int Launcher::exec() {
 
 	auto result = executeApplication();
 
-	DEBUG_LOG(("Telegram finished, result: %1").arg(result));
+	DEBUG_LOG(("Kotatogram finished, result: %1").arg(result));
 
 	if (!UpdaterDisabled() && cRestartingUpdate()) {
 		DEBUG_LOG(("Sandbox Info: executing updater to install update."));
@@ -287,7 +287,7 @@ int Launcher::exec() {
 			psDeleteDir(cWorkingDir() + qsl("tupdates/temp"));
 		}
 	} else if (cRestarting()) {
-		DEBUG_LOG(("Sandbox Info: executing Telegram because of restart."));
+		DEBUG_LOG(("Sandbox Info: executing Kotatogram because of restart."));
 		launchUpdater(UpdaterLaunch::JustRelaunch);
 	}
 
