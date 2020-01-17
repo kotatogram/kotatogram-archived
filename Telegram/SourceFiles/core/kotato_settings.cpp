@@ -148,6 +148,11 @@ bool Manager::readCustomFile() {
 		SetBigEmojiOutline((*settingsBigEmojiOutlineIt).toBool());
 	}
 
+	const auto settingsAlwaysShowScheduledIt = settings.constFind(qsl("always_show_scheduled"));
+	if (settingsAlwaysShowScheduledIt != settings.constEnd() && (*settingsAlwaysShowScheduledIt).isBool()) {
+		cSetAlwaysShowScheduled((*settingsAlwaysShowScheduledIt).toBool());
+	}
+
 	const auto settingsScalesIt = settings.constFind(qsl("scales"));
 	if (settingsScalesIt != settings.constEnd() && (*settingsScalesIt).isArray()) {
 		const auto settingsScalesArray = (*settingsScalesIt).toArray();
@@ -197,6 +202,7 @@ void Manager::writeDefaultFile() {
 	settings.insert(qsl("fonts"), settingsFonts);
 
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
+	settings.insert(qsl("always_show_scheduled"), cAlwaysShowScheduled());
 	settings.insert(qsl("chat_list_lines"), DialogListLines());
 
 	auto settingsScales = QJsonArray();
@@ -244,6 +250,7 @@ void Manager::writeCurrentSettings() {
 	settings.insert(qsl("fonts"), settingsFonts);
 
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
+	settings.insert(qsl("always_show_scheduled"), cAlwaysShowScheduled());
 	settings.insert(qsl("chat_list_lines"), DialogListLines());
 
 	auto settingsScales = QJsonArray();
