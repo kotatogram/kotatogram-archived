@@ -74,7 +74,7 @@
     'configurations': {
       'Debug': {
         'xcode_settings': {
-          'PRODUCT_BUNDLE_IDENTIFIER': 'com.tdesktop.TelegramDebugOsx',
+          'PRODUCT_BUNDLE_IDENTIFIER': 'io.github.KotatogramDebugOsx',
         },
         'library_dirs': [
           '<(libs_loc)/crashpad/out/Debug',
@@ -82,7 +82,7 @@
       },
       'Release': {
         'xcode_settings': {
-          'PRODUCT_BUNDLE_IDENTIFIER': 'com.tdesktop.Telegram',
+          'PRODUCT_BUNDLE_IDENTIFIER': 'io.github.Kotatogram',
         },
         'library_dirs': [
           '<(libs_loc)/crashpad/out/Release',
@@ -92,26 +92,26 @@
     'postbuilds': [{
       'postbuild_name': 'Force Frameworks path',
       'action': [
-        'mkdir', '-p', '${BUILT_PRODUCTS_DIR}/Telegram.app/Contents/Frameworks/'
+        'mkdir', '-p', '${BUILT_PRODUCTS_DIR}/Kotatogram.app/Contents/Frameworks/'
       ],
     }, {
       'postbuild_name': 'Copy Updater to Frameworks',
       'action': [
         'cp',
         '${BUILT_PRODUCTS_DIR}/Updater',
-        '${BUILT_PRODUCTS_DIR}/Telegram.app/Contents/Frameworks/',
+        '${BUILT_PRODUCTS_DIR}/Kotatogram.app/Contents/Frameworks/',
       ],
     }, {
       'postbuild_name': 'Force Helpers path',
       'action': [
-        'mkdir', '-p', '${BUILT_PRODUCTS_DIR}/Telegram.app/Contents/Helpers/'
+        'mkdir', '-p', '${BUILT_PRODUCTS_DIR}/Kotatogram.app/Contents/Helpers/'
       ],
     }, {
       'postbuild_name': 'Copy crashpad_handler to Helpers',
       'action': [
         'cp',
         '<(libs_loc)/crashpad/out/${CONFIGURATION}/crashpad_handler',
-        '${BUILT_PRODUCTS_DIR}/Telegram.app/Contents/Helpers/',
+        '${BUILT_PRODUCTS_DIR}/Kotatogram.app/Contents/Helpers/',
       ],
     }],
   }, {
@@ -155,38 +155,38 @@
     'configurations': {
       'Debug': {
         'xcode_settings': {
-          'PRODUCT_BUNDLE_IDENTIFIER': 'com.tdesktop.TelegramDebug',
+          'PRODUCT_BUNDLE_IDENTIFIER': 'io.github.KotatogramDebug',
         },
       },
       'Release': {
         'xcode_settings': {
-          'PRODUCT_BUNDLE_IDENTIFIER': 'com.tdesktop.Telegram',
+          'PRODUCT_BUNDLE_IDENTIFIER': 'io.github.Kotatogram',
         },
       },
     },
     'postbuilds': [{
       'postbuild_name': 'Force Frameworks path',
       'action': [
-        'mkdir', '-p', '${BUILT_PRODUCTS_DIR}/Telegram.app/Contents/Frameworks/'
+        'mkdir', '-p', '${BUILT_PRODUCTS_DIR}/Kotatogram.app/Contents/Frameworks/'
       ],
     }, {
       'postbuild_name': 'Copy Updater to Frameworks',
       'action': [
         'cp',
         '${BUILT_PRODUCTS_DIR}/Updater',
-        '${BUILT_PRODUCTS_DIR}/Telegram.app/Contents/Frameworks/',
+        '${BUILT_PRODUCTS_DIR}/Kotatogram.app/Contents/Frameworks/',
       ],
     }, {
       'postbuild_name': 'Force Helpers path',
       'action': [
-        'mkdir', '-p', '${BUILT_PRODUCTS_DIR}/Telegram.app/Contents/Helpers/'
+        'mkdir', '-p', '${BUILT_PRODUCTS_DIR}/Kotatogram.app/Contents/Helpers/'
       ],
     }, {
       'postbuild_name': 'Copy crashpad_client to Helpers',
       'action': [
         'cp',
         '<(libs_loc)/crashpad/out/${CONFIGURATION}/crashpad_handler',
-        '${BUILT_PRODUCTS_DIR}/Telegram.app/Contents/Helpers/',
+        '${BUILT_PRODUCTS_DIR}/Kotatogram.app/Contents/Helpers/',
       ],
     }],
   }], [ 'build_macstore', {
@@ -197,7 +197,7 @@
       '<(DEPTH)/../Telegram/Telegram Desktop.entitlements',
     ],
     'xcode_settings': {
-      'PRODUCT_BUNDLE_IDENTIFIER': 'org.telegram.desktop',
+      'PRODUCT_BUNDLE_IDENTIFIER': 'io.github.kotatogram',
       'OTHER_LDFLAGS': [
         '-framework', 'Breakpad',
       ],
@@ -212,19 +212,19 @@
     'postbuilds': [{
       'postbuild_name': 'Clear Frameworks path',
       'action': [
-        'rm', '-rf', '${BUILT_PRODUCTS_DIR}/Telegram Desktop.app/Contents/Frameworks'
+        'rm', '-rf', '${BUILT_PRODUCTS_DIR}/Kotatogram Desktop.app/Contents/Frameworks'
       ],
     }, {
       'postbuild_name': 'Force Frameworks path',
       'action': [
-        'mkdir', '-p', '${BUILT_PRODUCTS_DIR}/Telegram Desktop.app/Contents/Frameworks/'
+        'mkdir', '-p', '${BUILT_PRODUCTS_DIR}/Kotatogram Desktop.app/Contents/Frameworks/'
       ],
     }, {
       'postbuild_name': 'Copy Breakpad.framework to Frameworks',
       'action': [
         'cp', '-a',
         '<(libs_loc)/breakpad/src/client/mac/build/Release/Breakpad.framework',
-        '${BUILT_PRODUCTS_DIR}/Telegram Desktop.app/Contents/Frameworks/Breakpad.framework',
+        '${BUILT_PRODUCTS_DIR}/Kotatogram Desktop.app/Contents/Frameworks/Breakpad.framework',
       ],
     }]
   }]],

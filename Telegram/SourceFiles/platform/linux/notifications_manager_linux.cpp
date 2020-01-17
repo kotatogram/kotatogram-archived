@@ -154,7 +154,7 @@ private:
 			Libs::notify_notification_set_hint_string(_data, "x-canonical-append", "true");
 		}
 
-		Libs::notify_notification_set_hint_string(_data, "desktop-entry", "telegramdesktop");
+		Libs::notify_notification_set_hint_string(_data, "desktop-entry", "kotatogramdesktop");
 
 		auto signalReceiver = Libs::g_object_cast(_data);
 		auto signalHandler = G_CALLBACK(NotificationData::notificationClosed);
@@ -232,7 +232,7 @@ QString GetServerName() {
 	if (!LibNotifyLoaded()) {
 		return QString();
 	}
-	if (!Libs::notify_is_initted() && !Libs::notify_init("Telegram Desktop")) {
+	if (!Libs::notify_is_initted() && !Libs::notify_init("Kotatogram Desktop")) {
 		LOG(("LibNotify Error: failed to init!"));
 		return QString();
 	}

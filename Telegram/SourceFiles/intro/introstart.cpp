@@ -20,8 +20,8 @@ StartWidget::StartWidget(
 	not_null<Widget::Data*> data)
 : Step(parent, account, data, true) {
 	setMouseTracking(true);
-	setTitleText(rpl::single(qsl("Telegram Desktop")));
-	setDescriptionText(tr::lng_intro_about());
+	setTitleText(rpl::single(qsl("Kotatogram Desktop")));
+	setDescriptionText(tr::ktg_intro_about());
 	show();
 }
 

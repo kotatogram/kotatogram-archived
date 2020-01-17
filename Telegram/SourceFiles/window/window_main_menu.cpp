@@ -203,14 +203,12 @@ MainMenu::MainMenu(
 	refreshMenu();
 	refreshBackground();
 
-	_telegram->setMarkedText(Ui::Text::Link(
-		qsl("Telegram Desktop"),
-		qsl("https://desktop.telegram.org")));
+	_telegram->setRichText(textcmdLink(1, qsl("Kotatogram Desktop")));
+	_telegram->setLink(1, std::make_shared<LambdaClickHandler>([] { Ui::show(Box<AboutBox>()); }));
 	_telegram->setLinksTrusted();
-	_version->setRichText(textcmdLink(1, tr::lng_settings_current_version(tr::now, lt_version, currentVersionText())) + QChar(' ') + QChar(8211) + QChar(' ') + textcmdLink(2, tr::lng_menu_about(tr::now)));
-	_version->setLink(1, std::make_shared<UrlClickHandler>(qsl("https://desktop.telegram.org/changelog")));
-	_version->setLink(2, std::make_shared<LambdaClickHandler>([] { Ui::show(Box<AboutBox>()); }));
-
+	_version->setRichText(textcmdLink(1, currentVersionText()));
+	_version->setLink(1, std::make_shared<UrlClickHandler>(qsl("https://github.com/kotatogram/kotatogram-desktop")));
+	
 	subscribe(_controller->session().downloaderTaskFinished(), [=] { update(); });
 	subscribe(Notify::PeerUpdated(), Notify::PeerUpdatedHandler(Notify::PeerUpdate::Flag::UserPhoneChanged, [this](const Notify::PeerUpdate &update) {
 		if (update.peer->isSelf()) {

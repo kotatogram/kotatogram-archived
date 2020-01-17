@@ -681,8 +681,8 @@ void MainWindow::psFirstShow() {
 }
 
 void MainWindow::createGlobalMenu() {
-	auto main = psMainMenu.addMenu(qsl("Telegram"));
-	auto about = main->addAction(tr::lng_mac_menu_about_telegram(tr::now, lt_telegram, qsl("Telegram")));
+	auto main = psMainMenu.addMenu(qsl("Kotatogram"));
+	auto about = main->addAction(tr::lng_mac_menu_about_telegram(tr::now, lt_telegram, qsl("Kotatogram")));
 	connect(about, &QAction::triggered, about, [] {
 		if (App::wnd() && App::wnd()->isHidden()) App::wnd()->showFromTray();
 		Ui::show(Box<AboutBox>());
@@ -735,7 +735,7 @@ void MainWindow::createGlobalMenu() {
 	psNewGroup = window->addAction(tr::lng_mac_menu_new_group(tr::now), App::wnd(), SLOT(onShowNewGroup()));
 	psNewChannel = window->addAction(tr::lng_mac_menu_new_channel(tr::now), App::wnd(), SLOT(onShowNewChannel()));
 	window->addSeparator();
-	psShowTelegram = window->addAction(tr::lng_mac_menu_show(tr::now), App::wnd(), SLOT(showFromTray()));
+	psShowTelegram = window->addAction(tr::ktg_mac_menu_show(tr::now), App::wnd(), SLOT(showFromTray()));
 
 	updateGlobalMenu();
 }
