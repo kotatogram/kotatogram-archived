@@ -973,3 +973,9 @@ pollResultsShowMore: SettingsButton {
 
 	ripple: defaultRippleAnimation;
 }
+
+fontsBoxTextStyle: TextStyle(defaultTextStyle) {
+	font: font(13px);
+	linkFont: font(13px);
+	linkFontOver: font(13px underline);
+}

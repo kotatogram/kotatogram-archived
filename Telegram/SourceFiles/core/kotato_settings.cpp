@@ -181,7 +181,24 @@ bool Manager::readCustomFile() {
 	if (settings.isEmpty()) {
 		return true;
 	}
-	
+
+	ReadObjectOption(settings, "fonts", [&](auto o) {
+		ReadStringOption(o, "main", [&](auto v) {
+			cSetMainFont(v);
+		});
+
+		ReadStringOption(o, "semibold", [&](auto v) {
+			cSetSemiboldFont(v);
+		});
+
+		ReadBoolOption(o, "semibold_is_bold", [&](auto v) {
+			cSetSemiboldFontIsBold(v);
+		});
+
+		ReadStringOption(o, "monospaced", [&](auto v) {
+			cSetMonospaceFont(v);
+		});
+	});
 	return true;
 }
 
@@ -201,6 +218,13 @@ void Manager::writeDefaultFile() {
 	auto settings = QJsonObject();
 	settings.insert(qsl("version"), QString::number(AppKotatoVersion));
 
+	auto settingsFonts = QJsonObject();
+	settingsFonts.insert(qsl("main"), qsl("Open Sans"));
+	settingsFonts.insert(qsl("semibold"), qsl("Open Sans Semibold"));
+	settingsFonts.insert(qsl("semibold_is_bold"), false);
+	settingsFonts.insert(qsl("monospaced"), qsl("Consolas"));
+
+	settings.insert(qsl("fonts"), settingsFonts);
 	auto document = QJsonDocument();
 	document.setObject(settings);
 	file.write(document.toJson(QJsonDocument::Indented));
@@ -223,6 +247,24 @@ void Manager::writeCurrentSettings() {
 	file.write(customHeader);
 
 	auto settings = QJsonObject();
+
+	auto settingsFonts = QJsonObject();
+
+	if (!cMainFont().isEmpty()) {
+		settingsFonts.insert(qsl("main"), cMainFont());
+	}
+
+	if (!cSemiboldFont().isEmpty()) {
+		settingsFonts.insert(qsl("semibold"), cSemiboldFont());
+	}
+
+	if (!cMonospaceFont().isEmpty()) {
+		settingsFonts.insert(qsl("monospaced"), cMonospaceFont());
+	}
+
+	settingsFonts.insert(qsl("semibold_is_bold"), cSemiboldFontIsBold());
+
+	settings.insert(qsl("fonts"), settingsFonts);
 
 	auto document = QJsonDocument();
 	document.setObject(settings);

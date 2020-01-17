@@ -37,6 +37,22 @@ https://github.com/kotatogram/kotatogram-desktop/blob/dev/LEGAL
 
 namespace Settings {
 
+void SetupKotatoChats(not_null<Ui::VerticalLayout*> container) {
+	AddSkip(container);
+	AddSubsectionTitle(container, tr::ktg_settings_chats());
+
+	AddButton(
+		container,
+		tr::ktg_settings_fonts(),
+		st::settingsButton
+	)->addClickHandler([=] {
+		Ui::show(Box<FontsBox>());
+	});
+
+
+	AddSkip(container);
+}
+
 Kotato::Kotato(
 	QWidget *parent,
 	not_null<Window::SessionController*> controller)
@@ -46,6 +62,8 @@ Kotato::Kotato(
 
 void Kotato::setupContent(not_null<Window::SessionController*> controller) {
 	const auto content = Ui::CreateChild<Ui::VerticalLayout>(this);
+
+	SetupKotatoChats(content);
 
 	Ui::ResizeFitChild(this, content);
 }
