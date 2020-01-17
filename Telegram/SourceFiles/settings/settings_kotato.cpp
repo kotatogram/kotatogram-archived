@@ -71,6 +71,21 @@ void SetupKotatoChats(not_null<Ui::VerticalLayout*> container) {
 
 	AddButton(
 		container,
+		tr::ktg_settings_always_show_scheduled(),
+		st::settingsButton
+	)->toggleOn(
+		rpl::single(cAlwaysShowScheduled())
+	)->toggledValue(
+	) | rpl::filter([](bool enabled) {
+		return (enabled != cAlwaysShowScheduled());
+	}) | rpl::start_with_next([](bool enabled) {
+		cSetAlwaysShowScheduled(enabled);
+		Notify::showScheduledButtonChanged();
+		KotatoSettings::Write();
+	}, container->lifetime());
+
+	AddButton(
+		container,
 		tr::ktg_settings_fonts(),
 		st::settingsButton
 	)->addClickHandler([=] {

@@ -188,6 +188,7 @@ void SetBigEmojiOutline(bool enabled);
 [[nodiscard]] bool BigEmojiOutline();
 [[nodiscard]] rpl::producer<bool> BigEmojiOutlineChanges();
 
+DeclareSetting(bool, AlwaysShowScheduled);
 using ScaleVector = std::vector<int>;
 DeclareRefSetting(ScaleVector, InterfaceScales);
 bool HasCustomScales();
