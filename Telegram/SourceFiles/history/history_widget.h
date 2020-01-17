@@ -145,6 +145,7 @@ public:
 	PeerData *peer() const;
 	void setMsgId(MsgId showAtMsgId);
 	MsgId msgId() const;
+	MsgId highlightOrigId() const;
 
 	bool hasTopBarShadow() const {
 		return peer() != nullptr;
@@ -399,7 +400,7 @@ private:
 	void supportInsertText(const QString &text);
 	void supportShareContact(Support::Contact contact);
 
-	void highlightMessage(MsgId universalMessageId);
+	void highlightMessage(MsgId universalMessageId, MsgId originalMessageId);
 	void checkNextHighlight();
 	void updateHighlightedMessage();
 	void clearHighlightMessages();
@@ -788,6 +789,8 @@ private:
 
 	MsgId _highlightedMessageId = 0;
 	std::deque<MsgId> _highlightQueue;
+	MsgId _highlightedOriginalMessageId = 0;
+	std::deque<MsgId> _highlightOriginalQueue;
 	base::Timer _highlightTimer;
 	crl::time _highlightStart = 0;
 
