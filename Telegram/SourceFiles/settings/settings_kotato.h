@@ -1,0 +1,27 @@
+/*
+This file is part of Kotatogram Desktop,
+the unofficial app based on Telegram Desktop.
+
+For license and copyright information please follow this link:
+https://github.com/kotatogram/kotatogram-desktop/blob/dev/LEGAL
+*/
+#pragma once
+
+#include "settings/settings_common.h"
+
+class BoxContent;
+
+namespace Settings {
+
+class Kotato : public Section {
+public:
+	Kotato(
+		QWidget *parent,
+		not_null<Window::SessionController*> controller);
+
+private:
+	void setupContent(not_null<Window::SessionController*> controller);
+
+};
+
+} // namespace Settings

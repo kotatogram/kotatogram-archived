@@ -38,6 +38,7 @@ enum class Type {
 	Advanced,
 	Chat,
 	Calls,
+	Kotato,
 };
 
 using Button = Ui::SettingsButton;
