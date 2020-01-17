@@ -41,5 +41,7 @@
 		"other": "{count} подписчиков"
 	},
 	"ktg_profile_subscribers_section": "Подписчики",
-	"ktg_manage_peer_subscribers": "Подписчики"
+	"ktg_manage_peer_subscribers": "Подписчики",
+	"ktg_settings_show_json_settings": "Показать файл настроек",
+	"ktg_settings_restart": "Перезапустить Kotatogram"
 }
