@@ -42,7 +42,7 @@ using Platform::File::internal::EscapeShell;
 
 namespace {
 
-constexpr auto kDesktopFile = ":/misc/telegramdesktop.desktop"_cs;
+constexpr auto kDesktopFile = ":/misc/kotatogramdesktop.desktop"_cs;
 
 bool XDGDesktopPortalPresent = false;
 
@@ -166,7 +166,7 @@ bool GenerateDesktopFile(const QString &targetPath, const QString &args) {
 		target.close();
 
 		DEBUG_LOG(("App Info: removing old .desktop file"));
-		QFile(qsl("%1telegram.desktop").arg(targetPath)).remove();
+		QFile(qsl("%1kotatogram.desktop").arg(targetPath)).remove();
 
 		return true;
 	} else {
@@ -366,16 +366,16 @@ QString getHomeDir() {
 } // namespace
 
 QString psAppDataPath() {
-	// Previously we used ~/.TelegramDesktop, so look there first.
-	// If we find data there, we should still use it.
-	auto home = getHomeDir();
-	if (!home.isEmpty()) {
-		auto oldPath = home + qsl(".TelegramDesktop/");
-		auto oldSettingsBase = oldPath + qsl("tdata/settings");
-		if (QFile(oldSettingsBase + '0').exists() || QFile(oldSettingsBase + '1').exists()) {
-			return oldPath;
-		}
-	}
+	// We should not use ~/.TelegramDesktop, since it's a fork.
+
+	// auto home = getHomeDir();
+	// if (!home.isEmpty()) {
+	// 	auto oldPath = home + qsl(".TelegramDesktop/");
+	// 	auto oldSettingsBase = oldPath + qsl("tdata/settings");
+	// 	if (QFile(oldSettingsBase + '0').exists() || QFile(oldSettingsBase + '1').exists()) {
+	// 		return oldPath;
+	// 	}
+	// }
 
 	return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + '/';
 }
@@ -446,7 +446,7 @@ void RegisterCustomScheme() {
 
 	if (!QDir(icons).exists()) QDir().mkpath(icons);
 
-	const auto icon = icons + qsl("telegram.png");
+	const auto icon = icons + qsl("kotatogram.png");
 	auto iconExists = QFile(icon).exists();
 	if (Local::oldSettingsVersion() < 10021 && iconExists) {
 		// Icon was changed.

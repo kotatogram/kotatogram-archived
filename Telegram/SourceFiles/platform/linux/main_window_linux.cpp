@@ -29,12 +29,12 @@ namespace Platform {
 namespace {
 
 constexpr auto kDisableTrayCounter = "TDESKTOP_DISABLE_TRAY_COUNTER"_cs;
-constexpr auto kTrayIconName = "telegram"_cs;
-constexpr auto kPanelTrayIconName = "telegram-panel"_cs;
-constexpr auto kMutePanelTrayIconName = "telegram-mute-panel"_cs;
-constexpr auto kAttentionPanelTrayIconName = "telegram-attention-panel"_cs;
+constexpr auto kTrayIconName = "kotatogram"_cs;
+constexpr auto kPanelTrayIconName = "kotatogram-panel"_cs;
+constexpr auto kMutePanelTrayIconName = "kotatogram-mute-panel"_cs;
+constexpr auto kAttentionPanelTrayIconName = "kotatogram-attention-panel"_cs;
 constexpr auto kSNIWatcherService = "org.kde.StatusNotifierWatcher"_cs;
-constexpr auto kTrayIconFilename = "tdesktop-trayicon-XXXXXX.png"_cs;
+constexpr auto kTrayIconFilename = "kdesktop-trayicon-XXXXXX.png"_cs;
 
 int32 _trayIconSize = 48;
 bool _trayIconMuted = true;
@@ -106,26 +106,6 @@ QImage TrayIconImageGen() {
 
 			_trayIconImageBack = _trayIconImageBack.convertToFormat(
 				QImage::Format_ARGB32);
-
-			w = _trayIconImageBack.width();
-			h = _trayIconImageBack.height();
-			const auto perline = _trayIconImageBack.bytesPerLine();
-			auto *bytes = _trayIconImageBack.bits();
-
-			for (int32 y = 0; y < h; ++y) {
-				for (int32 x = 0; x < w; ++x) {
-					int32 srcoff = y * perline + x * 4;
-					bytes[srcoff + QT_RED  ] = qMax(
-						bytes[srcoff + QT_RED  ],
-						uchar(224));
-					bytes[srcoff + QT_GREEN] = qMax(
-						bytes[srcoff + QT_GREEN],
-						uchar(165));
-					bytes[srcoff + QT_BLUE ] = qMax(
-						bytes[srcoff + QT_BLUE ],
-						uchar(44));
-				}
-			}
 		}
 
 		_trayIconImage = _trayIconImageBack;
@@ -443,7 +423,7 @@ void MainWindow::psFirstShow() {
 	if (QDBusInterface("com.canonical.Unity", "/").isValid()) {
 		const std::vector<QString> possibleDesktopFiles = {
 			GetLauncherFilename(),
-			"Telegram.desktop"
+			"Kotatogram.desktop"
 		};
 
 		for (auto it = possibleDesktopFiles.begin();
