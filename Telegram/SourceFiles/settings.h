@@ -187,3 +187,9 @@ DeclareSetting(QString, MonospaceFont);
 void SetBigEmojiOutline(bool enabled);
 [[nodiscard]] bool BigEmojiOutline();
 [[nodiscard]] rpl::producer<bool> BigEmojiOutlineChanges();
+
+using ScaleVector = std::vector<int>;
+DeclareRefSetting(ScaleVector, InterfaceScales);
+bool HasCustomScales();
+bool AddCustomScale(int scale);
+void ClearCustomScales();
