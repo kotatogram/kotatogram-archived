@@ -577,6 +577,10 @@ bool FieldAutocomplete::eventFilter(QObject *obj, QEvent *e) {
 				emit moderateKeyActivate(ev->key(), &handled);
 				return handled;
 			}
+		} else if (ev->modifiers() & Qt::ControlModifier) {
+			if (ev->key() == Qt::Key_Enter || ev->key() == Qt::Key_Return) {
+				return _inner->chooseSelected(ChooseMethod::ByCtrlEnter);
+			}
 		}
 	}
 	return QWidget::eventFilter(obj, e);
@@ -883,7 +887,7 @@ void FieldAutocompleteInner::setRecentInlineBotsInRows(int32 bots) {
 
 void FieldAutocompleteInner::mousePressEvent(QMouseEvent *e) {
 	selectByMouse(e->globalPos());
-	if (e->button() == Qt::LeftButton) {
+	if (e->button() == Qt::LeftButton || e->button() == Qt::RightButton) {
 		if (_overDelete && _sel >= 0 && _sel < (_mrows->isEmpty() ? _hrows->size() : _recentInlineBotsInRows)) {
 			bool removed = false;
 			if (_mrows->isEmpty()) {
@@ -913,7 +917,15 @@ void FieldAutocompleteInner::mousePressEvent(QMouseEvent *e) {
 
 			selectByMouse(e->globalPos());
 		} else if (_srows->empty()) {
-			chooseSelected(FieldAutocomplete::ChooseMethod::ByClick);
+			if (e->button() == Qt::LeftButton) {
+				if (e->modifiers() & Qt::ControlModifier) {
+					chooseSelected(FieldAutocomplete::ChooseMethod::ByCtrlClick);
+				} else {
+					chooseSelected(FieldAutocomplete::ChooseMethod::ByClick);
+				}
+			} else if (e->button() == Qt::RightButton) {
+				chooseSelected(FieldAutocomplete::ChooseMethod::ByRightClick);
+			}
 		} else {
 			_down = _sel;
 			_previewTimer.callOnce(QApplication::startDragTime());
@@ -936,7 +948,15 @@ void FieldAutocompleteInner::mouseReleaseEvent(QMouseEvent *e) {
 
 	if (_sel < 0 || _sel != pressed || _srows->empty()) return;
 
-	chooseSelected(FieldAutocomplete::ChooseMethod::ByClick);
+	if (e->button() == Qt::LeftButton) {
+		if (e->modifiers() & Qt::ControlModifier) {
+			chooseSelected(FieldAutocomplete::ChooseMethod::ByCtrlClick);
+		} else {
+			chooseSelected(FieldAutocomplete::ChooseMethod::ByClick);
+		}
+	} else if (e->button() == Qt::RightButton) {
+		chooseSelected(FieldAutocomplete::ChooseMethod::ByRightClick);
+	}
 }
 
 void FieldAutocompleteInner::enterEventHook(QEvent *e) {

@@ -386,7 +386,7 @@ HistoryWidget::HistoryWidget(
 
 	InitMessageField(controller, _field);
 	_fieldAutocomplete->hide();
-	connect(_fieldAutocomplete, SIGNAL(mentionChosen(UserData*,FieldAutocomplete::ChooseMethod)), this, SLOT(onMentionInsert(UserData*)));
+	connect(_fieldAutocomplete, SIGNAL(mentionChosen(UserData*,FieldAutocomplete::ChooseMethod)), this, SLOT(onMentionInsert(UserData*,FieldAutocomplete::ChooseMethod)));
 	connect(_fieldAutocomplete, SIGNAL(hashtagChosen(QString,FieldAutocomplete::ChooseMethod)), this, SLOT(onHashtagOrBotCommandInsert(QString,FieldAutocomplete::ChooseMethod)));
 	connect(_fieldAutocomplete, SIGNAL(botCommandChosen(QString,FieldAutocomplete::ChooseMethod)), this, SLOT(onHashtagOrBotCommandInsert(QString,FieldAutocomplete::ChooseMethod)));
 	connect(_fieldAutocomplete, &FieldAutocomplete::stickerChosen, this, [=](not_null<DocumentData*> document) {
@@ -1005,9 +1005,12 @@ void HistoryWidget::start() {
 	});
 }
 
-void HistoryWidget::onMentionInsert(UserData *user) {
+void HistoryWidget::onMentionInsert(UserData *user, FieldAutocomplete::ChooseMethod method) {
 	QString replacement, entityTag;
-	if (user->username.isEmpty()) {
+	if (user->username.isEmpty()
+		|| method == FieldAutocomplete::ChooseMethod::ByRightClick 
+		|| method == FieldAutocomplete::ChooseMethod::ByCtrlEnter
+		|| method == FieldAutocomplete::ChooseMethod::ByCtrlClick) {
 		replacement = user->firstName;
 		if (replacement.isEmpty()) {
 			replacement = user->name;
