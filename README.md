@@ -1,65 +1,42 @@
-# [Telegram Desktop][telegram_desktop] – Official Messenger
+# Kotatogram – experimental [Telegram Desktop][telegram_desktop] fork.
 
-This is the complete source code and the build instructions for the alpha version of the official desktop client for the [Telegram][telegram] messenger, based on the [Telegram API][telegram_api] and the [MTProto][telegram_proto] secure protocol.
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/kotatogram/kotatogram-desktop?include_prereleases&label=version&style=flat)][releases]
+[![GitHub Workflow Status: Windows](https://img.shields.io/github/workflow/status/kotatogram/kotatogram-desktop/Windows.?label=Windows&logo=windows)][actions]
+[![GitHub Workflow Status: Linux](https://img.shields.io/github/workflow/status/kotatogram/kotatogram-desktop/Linux.?label=Linux&logo=linux)][actions]
 
-[![Version](https://badge.fury.io/gh/telegramdesktop%2Ftdesktop.svg)](https://github.com/telegramdesktop/tdesktop/releases)
-[![Build Status](https://github.com/telegramdesktop/tdesktop/workflows/Windows./badge.svg)](https://github.com/telegramdesktop/tdesktop/actions)
-[![Build Status](https://github.com/telegramdesktop/tdesktop/workflows/MacOS./badge.svg)](https://github.com/telegramdesktop/tdesktop/actions)
-[![Build Status](https://github.com/telegramdesktop/tdesktop/workflows/Linux./badge.svg)](https://github.com/telegramdesktop/tdesktop/actions)
+[![Preview of Kotatogram Desktop][preview_image]][preview_image_url]
 
-[![Preview of Telegram Desktop][preview_image]][preview_image_url]
+Original README with build instructions and licenses could be found in [Telegram Desktop repository][telegram_desktop_readme].
 
-The source code is published under GPLv3 with OpenSSL exception, the license is available [here][license].
+## Builds
+* Windows (installer and portable)
+* Linux (64-bit)
+  * [Flathub][flatpak]
+  * Other repositories:<br>[![Packaging status](https://repology.org/badge/vertical-allrepos/kotatogram-desktop.svg)][repology]
 
-## Supported systems
+## Features
+* Custom font
+* Compact chat list
+* Custom text replaces
+* Change sticker size
+* Adaptive chat bubbles
+* and other smaller features.
 
-* Windows XP - Windows 10 (**not** RT)
-* Mac OS X 10.8 - Mac OS X 10.15
-* Mac OS X 10.6 - Mac OS X 10.7 (separate build)
-* Ubuntu 12.04 - Ubuntu 19.10
-* Fedora 22 - Fedora 31
-* [Snappy](https://snapcraft.io/telegram-desktop)
-* [Flathub](https://flathub.org/apps/details/org.telegram.desktop)
+Full list of features will rewritten later, for now you can use one of `control-*` branches. These branches have changes split by feature instead of chronologically.
 
-## Third-party
-
-* Qt 5.12.5 and 5.6.2, slightly patched ([LGPL](http://doc.qt.io/qt-5/lgpl.html))
-* OpenSSL 1.1.1 ([OpenSSL License](https://www.openssl.org/source/license.html))
-* zlib 1.2.11 ([zlib License](http://www.zlib.net/zlib_license.html))
-* LZMA SDK 9.20 ([public domain](http://www.7-zip.org/sdk.html))
-* liblzma ([public domain](http://tukaani.org/xz/))
-* Google Breakpad ([License](https://chromium.googlesource.com/breakpad/breakpad/+/master/LICENSE))
-* Google Crashpad ([Apache License 2.0](https://chromium.googlesource.com/crashpad/crashpad/+/master/LICENSE))
-* GYP ([BSD License](https://github.com/bnoordhuis/gyp/blob/master/LICENSE))
-* Ninja ([Apache License 2.0](https://github.com/ninja-build/ninja/blob/master/COPYING))
-* OpenAL Soft ([LGPL](https://github.com/kcat/openal-soft/blob/master/COPYING))
-* Opus codec ([BSD License](http://www.opus-codec.org/license/))
-* FFmpeg ([LGPL](https://www.ffmpeg.org/legal.html))
-* Guideline Support Library ([MIT License](https://github.com/Microsoft/GSL/blob/master/LICENSE))
-* Mapbox Variant ([BSD License](https://github.com/mapbox/variant/blob/master/LICENSE))
-* Range-v3 ([Boost License](https://github.com/ericniebler/range-v3/blob/master/LICENSE.txt))
-* Open Sans font ([Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html))
-* Emoji alpha codes ([MIT License](https://github.com/emojione/emojione/blob/master/extras/alpha-codes/LICENSE.md))
-* Catch test framework ([Boost License](https://github.com/philsquared/Catch/blob/master/LICENSE.txt))
-* xxHash ([BSD License](https://github.com/Cyan4973/xxHash/blob/dev/LICENSE))
-* QR Code generator ([MIT License](https://github.com/nayuki/QR-Code-generator#license))
-* CMake ([New BSD License](https://github.com/Kitware/CMake/blob/master/Copyright.txt))
-
-## Build instructions
-
-* [Visual Studio 2019][msvc]
-* [Xcode 10][xcode]
-* [GYP/CMake on GNU/Linux][cmake]
+## Other links
+* Website: https://kotatogram.github.io
+* English Telegram channel: https://t.me/kotatogram
+* Russian Telegram channel: https://t.me/kotatogram_ru
+* Trello (on Russian): https://trello.com/b/G6zetXOH/kotatogram-desktop
 
 [//]: # (LINKS)
-[telegram]: https://telegram.org
 [telegram_desktop]: https://desktop.telegram.org
-[telegram_api]: https://core.telegram.org
-[telegram_proto]: https://core.telegram.org/mtproto
-[license]: LICENSE
-[msvc]: docs/building-msvc.md
-[xcode]: docs/building-xcode.md
-[xcode_old]: docs/building-xcode-old.md
-[cmake]: docs/building-cmake.md
-[preview_image]: https://github.com/telegramdesktop/tdesktop/blob/dev/docs/assets/preview.png "Preview of Telegram Desktop"
-[preview_image_url]: https://raw.githubusercontent.com/telegramdesktop/tdesktop/dev/docs/assets/preview.png
+[releases]: https://github.com/kotatogram/kotatogram-desktop/releases
+[actions]: https://github.com/kotatogram/kotatogram-desktop/actions
+[telegram_desktop_readme]: https://github.com/telegramdesktop/tdesktop/blob/dev/README.md
+[repology]: https://repology.org/project/kotatogram-desktop/versions
+[flatpak]: https://flathub.org/apps/details/io.github.kotatogram
+[changelog]: https://github.com/kotatogram/kotatogram-desktop/blob/dev/kotatogram_changes.txt
+[preview_image]: https://github.com/kotatogram/kotatogram-desktop/blob/dev/docs/assets/ktg_preview.png "Preview of Kotatogram Desktop"
+[preview_image_url]: https://github.com/kotatogram/kotatogram-desktop/blob/dev/docs/assets/ktg_preview.png
