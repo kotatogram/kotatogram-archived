@@ -238,3 +238,14 @@ bool AddCustomScale(int scale) {
 void ClearCustomScales() {
 	gInterfaceScales.clear();
 }
+
+rpl::variable<int> gDialogListLines = 2;
+void SetDialogListLines(int lines) {
+	gDialogListLines = lines;
+}
+int DialogListLines() {
+	return gDialogListLines.current();
+}
+rpl::producer<int> DialogListLinesChanges() {
+	return gDialogListLines.changes();
+}
