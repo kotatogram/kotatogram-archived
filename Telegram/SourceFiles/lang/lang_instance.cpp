@@ -14,6 +14,12 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "lang/lang_file_parser.h"
 #include "base/platform/base_platform_info.h"
 #include "base/qthelp_regex.h"
+#include "base/parse_helper.h"
+
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
+#include <QtCore/QJsonArray>
+#include <QtCore/QDir>
 
 namespace Lang {
 namespace {
@@ -550,6 +556,122 @@ void Instance::fillFromSerialized(
 	updatePluralRules();
 
 	_idChanges.fire_copy(_id);
+}
+
+QString Instance::jsonLangDir() {
+	return cWorkingDir() + "tdata/ktg_lang/";
+}
+
+void Instance::fillDefaultJson() {
+	if (!QDir().exists(jsonLangDir())) QDir().mkpath(jsonLangDir());
+
+	const auto path = jsonLangDir() + "ru.default.json";
+	const auto pathRaw = jsonLangDir() + "ru-raw.default.json";
+	auto input = QFile(":/ktg_lang/ru.json");
+	auto output = QFile(path);
+	auto outputRaw = QFile(pathRaw);
+	if (input.open(QIODevice::ReadOnly)) {
+		auto inputData = input.readAll();
+		if (output.open(QIODevice::WriteOnly)) {
+			output.write(inputData);
+			output.close();
+		}
+		
+		if (outputRaw.open(QIODevice::WriteOnly)) {
+			outputRaw.write(inputData);
+			outputRaw.close();
+		}
+		input.close();
+	}
+}
+
+void Instance::fillFromJson() {
+	if (id() != baseId()) {
+		const auto langDefBaseDir = jsonLangDir() + (qsl("%1.default.json").arg(baseId()));
+		loadFromJson(langDefBaseDir);
+		const auto langBaseDir = jsonLangDir() + (qsl("%1.json").arg(baseId()));
+		loadFromJson(langBaseDir);
+	}
+	
+	const auto langDefCustomDir = jsonLangDir() + (qsl("%1.default.json").arg(id()));
+	loadFromJson(langDefCustomDir);
+	const auto langCustomDir = jsonLangDir() + (qsl("%1.json").arg(id()));
+	loadFromJson(langCustomDir);
+
+	_idChanges.fire_copy(_id);
+}
+
+void Instance::loadFromJson(const QString &filename) {
+	QFile file(filename);
+	if (!file.exists()) {
+		return;
+	}
+	if (!file.open(QIODevice::ReadOnly)) {
+		LOG(("Lang Info: file %1 could not be read.").arg(filename));
+		return;
+	}
+	auto error = QJsonParseError{ 0, QJsonParseError::NoError };
+	const auto document = QJsonDocument::fromJson(
+		base::parse::stripComments(file.readAll()),
+		&error);
+	file.close();
+
+	if (error.error != QJsonParseError::NoError) {
+		LOG(("Lang Info: file %1 has failed to parse. Error: %2"
+			).arg(filename
+			).arg(error.errorString()));
+		return;
+	} else if (!document.isObject()) {
+		LOG(("Lang Info: file %1 has failed to parse. Error: object expected"
+			).arg(filename));
+		return;
+	}
+	const auto langKeys = document.object();
+	auto limit = kLangValuesLimit;
+	const auto keyList = langKeys.keys();
+
+	for (auto i = keyList.constBegin(), e = keyList.constEnd(); i != e; ++i) {
+		const auto key = *i;
+		const auto value = langKeys.constFind(key);
+
+		if ((*value).isString()) {
+			
+			const auto name = QByteArray().append(key);
+			const auto translation = QByteArray().append((*value).toString());
+
+			applyValue(name, translation);
+
+		} else if ((*value).isObject()) {
+			
+			const auto keyPlurals = (*value).toObject();
+			const auto pluralList = keyPlurals.keys();
+
+			for (auto pli = pluralList.constBegin(), ple = pluralList.constEnd(); pli != ple; ++pli) {
+				const auto plural = *pli;
+				const auto pluralValue = keyPlurals.constFind(plural);
+
+				if (!(*pluralValue).isString()) {
+					LOG(("Lang Info: wrong value for key %1 in %2 in file %3, string expected"
+					).arg(plural).arg(key).arg(filename));
+					continue;
+				}
+
+				const auto name = QByteArray().append(key + "#" + plural);
+				const auto translation = QByteArray().append((*pluralValue).toString());
+
+				applyValue(name, translation);
+				if (--limit <= 0) {
+					break;
+				}
+			}
+		} else {
+			LOG(("Lang Info: wrong value for key %1 in file %2, string or object expected"
+			).arg(key).arg(filename));
+		}
+		if (--limit <= 0) {
+			break;
+		}
+	}
 }
 
 void Instance::loadFromContent(const QByteArray &content) {
