@@ -2332,4 +2332,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 "ktg_copy_btn_callback" = "Copy callback data";
 
+"ktg_pinned_message_show" = "Show pinned message";
+"ktg_pinned_message_hide" = "Hide pinned message";
+
 // Keys finished
