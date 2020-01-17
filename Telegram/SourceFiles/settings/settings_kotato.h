@@ -13,6 +13,8 @@ class BoxContent;
 
 namespace Settings {
 
+void SetupKotatoChats(not_null<Ui::VerticalLayout*> container);
+
 class Kotato : public Section {
 public:
 	Kotato(
