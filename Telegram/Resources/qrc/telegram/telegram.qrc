@@ -57,4 +57,7 @@
   <qresource prefix="/misc">
     <file alias="default_shortcuts-custom.json">../../default_shortcuts-custom.json</file>
   </qresource>
+  <qresource prefix="/ktg_lang">
+    <file alias="ru.json">../../langs/rewrites/ru.json</file>
+  </qresource>
 </RCC>
