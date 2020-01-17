@@ -5723,10 +5723,40 @@ void HistoryWidget::updatePinnedBar(bool force) {
 	}
 }
 
+bool HistoryWidget::hasHiddenPinnedMessage(not_null<PeerData*> peer) {
+	auto result = false;
+	auto pinnedId = peer->pinnedMessageId();
+	if (pinnedId) {
+		auto it = Global::HiddenPinnedMessages().constFind(peer->id);
+		if (it != Global::HiddenPinnedMessages().cend()) {
+			result = true;
+		}
+	}
+	return result;
+}
+
+bool HistoryWidget::switchPinnedHidden(not_null<PeerData*> peer, bool hidden) {
+	auto result = false;
+	auto pinnedId = peer->pinnedMessageId();
+	if (pinnedId) {
+		auto it = Global::HiddenPinnedMessages().constFind(peer->id);
+		if (it != Global::HiddenPinnedMessages().cend() && !hidden) {
+			Global::RefHiddenPinnedMessages().remove(peer->id);
+			Local::writeUserSettings();
+			result = true;
+		} else if (it == Global::HiddenPinnedMessages().cend() && hidden) {
+			Global::RefHiddenPinnedMessages().insert(peer->id, pinnedId);
+			Local::writeUserSettings();
+			result = true;
+		}
+	}
+	return result;
+}
+
 bool HistoryWidget::pinnedMsgVisibilityUpdated() {
 	auto result = false;
 	auto pinnedId = _peer->pinnedMessageId();
-	if (pinnedId && !_peer->canPinMessages()) {
+	if (pinnedId) {
 		auto it = Global::HiddenPinnedMessages().constFind(_peer->id);
 		if (it != Global::HiddenPinnedMessages().cend()) {
 			if (it.value() == pinnedId) {
@@ -5748,7 +5778,11 @@ bool HistoryWidget::pinnedMsgVisibilityUpdated() {
 				_pinnedBar->shadow->show();
 			}
 			_pinnedBar->cancel->addClickHandler([=] {
-				hidePinnedMessage();
+				if (_pinnedBar->cancel->clickModifiers() & Qt::ControlModifier) {
+					hidePinnedMessage(true);
+				} else {
+					hidePinnedMessage();
+				}
 			});
 			orderWidgets();
 
@@ -6014,7 +6048,7 @@ void HistoryWidget::unpinDone(const MTPUpdates &updates) {
 	session().api().applyUpdates(updates);
 }
 
-void HistoryWidget::hidePinnedMessage() {
+void HistoryWidget::hidePinnedMessage(bool force) {
 	const auto pinnedId = _peer ? _peer->pinnedMessageId() : MsgId(0);
 	if (!pinnedId) {
 		if (pinnedMsgVisibilityUpdated()) {
@@ -6024,7 +6058,7 @@ void HistoryWidget::hidePinnedMessage() {
 		return;
 	}
 
-	if (_peer->canPinMessages()) {
+	if (_peer->canPinMessages() && !force) {
 		unpinMessage(FullMsgId(
 			_peer->isChannel() ? peerToChannel(_peer->id) : NoChannel,
 			pinnedId));
