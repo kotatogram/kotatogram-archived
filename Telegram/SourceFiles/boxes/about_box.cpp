@@ -28,10 +28,10 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 namespace {
 
 rpl::producer<TextWithEntities> Text1() {
-	return tr::lng_about_text1(
-		lt_api_link,
-		tr::lng_about_text1_api(
-		) | Ui::Text::ToLink("https://core.telegram.org/api"),
+	return tr::ktg_about_text1(
+		lt_tdesktop_link,
+		tr::ktg_about_text1_tdesktop(
+		) | Ui::Text::ToLink("https://desktop.telegram.org/"),
 		Ui::Text::WithEntities);
 }
 
@@ -40,16 +40,33 @@ rpl::producer<TextWithEntities> Text2() {
 		lt_gpl_link,
 		rpl::single(Ui::Text::Link(
 			"GNU GPL",
-			"https://github.com/telegramdesktop/tdesktop/blob/master/LICENSE")),
+			"https://github.com/kotatogram/kotatogram-desktop/blob/master/LICENSE")),
 		lt_github_link,
 		rpl::single(Ui::Text::Link(
 			"GitHub",
-			"https://github.com/telegramdesktop/tdesktop")),
+			"https://github.com/kotatogram/kotatogram-desktop")),
 		Ui::Text::WithEntities);
 }
 
 rpl::producer<TextWithEntities> Text3() {
-	return tr::lng_about_text3(
+	auto baseLang = Lang::Current().baseId();
+	auto currentLang = Lang::Current().id();
+	QString channelLink;
+
+	for (const auto language : { "ru", "uk", "be" }) {
+		if (baseLang.startsWith(QLatin1String(language)) || currentLang == QString(language)) {
+			channelLink = "https://t.me/kotatogram_ru";
+			break;
+		}
+	}
+
+	if (channelLink.isEmpty()) {
+		channelLink = "https://t.me/kotatogram";
+	}
+
+	return tr::ktg_about_text3(
+		lt_channel_link,
+		tr::ktg_about_text3_channel() | Ui::Text::ToLink(channelLink),
 		lt_faq_link,
 		tr::lng_about_text3_faq() | Ui::Text::ToLink(telegramFaqLink()),
 		Ui::Text::WithEntities);
@@ -65,7 +82,7 @@ AboutBox::AboutBox(QWidget *parent)
 }
 
 void AboutBox::prepare() {
-	setTitle(rpl::single(qsl("Telegram Desktop")));
+	setTitle(rpl::single(qsl("Kotatogram Desktop")));
 
 	addButton(tr::lng_close(), [this] { closeBox(); });
 
@@ -139,11 +156,12 @@ QString telegramFaqLink() {
 }
 
 QString currentVersionText() {
-	auto result = QString::fromLatin1(AppVersionStr);
+	auto result = QString::fromLatin1(AppKotatoVersionStr);
 	if (cAlphaVersion()) {
 		result += qsl(" alpha %1").arg(cAlphaVersion() % 1000);
 	} else if (AppBetaVersion) {
 		result += " beta";
 	}
+	result += qsl(" (TD %1)").arg(AppVersionStr);
 	return result;
 }
