@@ -206,3 +206,6 @@ void AddRecentEmoji(EmojiPtr emoji) {
 rpl::producer<> UpdatedRecentEmoji() {
 	return UpdatesRecentEmoji.events();
 }
+
+QString gMainFont, gSemiboldFont, gMonospaceFont;
+bool gSemiboldFontIsBold = false;
