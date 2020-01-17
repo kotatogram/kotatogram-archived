@@ -1,0 +1,62 @@
+1.1.2 beta (21.12.2019)
+- Adaptive message width option (user-contributed).
+- Compact chat list mode.
+- Forwarded info for stickers.
+
+1.1.1 beta (11.10.2019)
+- Updated TDesktop sources to 1.9.1 beta.
+
+1.1 (21.10.2019)
+- Options menu with almost all JSON options (except for scales).
+- Font start options are now removed in favor of JSON and settings menu.
+- Highlight for specific media in album.
+
+1.0.10 (15.10.2019)
+- Change fonts in Kotatogram Settings.
+
+1.0.9 (11.10.2019)
+- Options menu: sticker height, emoji outline, scheduled messages button visibility.
+
+1.0.8 (8.10.2019)
+- Option to hide phone number in drawer.
+- Option to set custom interface scales.
+- Keyboard shortcut to save draft to cloud (Ctrl+S by default).
+
+1.0.7 beta (7.10.2019)
+- JSON locale rewrites.
+- Russian language support for fork strings.
+- Show custom settings and restart app from settings' three-dots menu.
+- Show custom admin titles in member list.
+- Option to enable network speed boost. Warning: can work bad with low connection speeds.
+- Fixed "Channel is unaccessible" when clicking on linked channel from message.
+
+1.0.6 (5.10.2019)
+- JSON configuration.
+
+1.0.5 (4.10.2019)
+- Minor fixes and improvements.
+
+1.0.4 (3.10.2019)
+- Minor fixes and improvements.
+
+1.0.3 (2.10.2019)
+- Always show edit timer.
+- Disabled big emoji outline.
+- Show restriction date to user.
+
+1.0.2 (1.10.2019)
+- Hide pinned message from chat menu.
+- Always show scheduled messages button.
+- View discussion group and discussed channel in profile.
+
+1.0.1 (30.09.2019)
+- Show previously hidden pinned message in chat.
+- Show ID in chat profile.
+- Copy bot button callback data from its context menu.
+
+1.0 (22.09.2019)
+
+- Mention user by name instead of username by right clicking mention suggestion.
+- Clickable links and usernames in profile bios.
+- Custom font selection by start options.
+- Adjusted caption, photo, and sticker sizes.
