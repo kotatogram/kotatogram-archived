@@ -163,6 +163,18 @@ Application::~Application() {
 
 void Application::run() {
 	KotatoSettings::Start();
+	if (!cMainFont().isEmpty()) {
+		style::internal::CustomMainFont = cMainFont();
+	}
+	if (!cSemiboldFont().isEmpty()) {
+		style::internal::CustomSemiboldFont = cSemiboldFont();
+	}
+	if (cSemiboldFontIsBold()) {
+		style::internal::CustomSemiboldIsBold = cSemiboldFontIsBold();
+	}
+	if (!cMonospaceFont().isEmpty()) {
+		style::internal::CustomMonospaceFont = cMonospaceFont();
+	}
 	style::internal::StartFonts();
 
 	ThirdParty::start();
