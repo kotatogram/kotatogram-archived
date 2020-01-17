@@ -32,5 +32,6 @@
 	"ktg_outdated_soon": "Иначе приложение перестанет обновляться с {date}.",
 	"ktg_outdated_now": "Чтобы приложение Kotatogram могло получать обновления.",
 	"ktg_mac_menu_show": "Показать Kotatogram",
-	"ktg_settings_kotato": "Настройки Kotatogram"
+	"ktg_settings_kotato": "Настройки Kotatogram",
+	"ktg_user_status_unaccessible": "аккаунт недоступен"
 }
