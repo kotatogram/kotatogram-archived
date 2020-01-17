@@ -178,3 +178,8 @@ inline void ValidateScale() {
 	SetScaleChecked(cConfigScale());
 	style::SetScale(cEvalScale(cConfigScale()));
 }
+
+DeclareSetting(QString, MainFont);
+DeclareSetting(QString, SemiboldFont);
+DeclareSetting(bool, SemiboldFontIsBold);
+DeclareSetting(QString, MonospaceFont);
