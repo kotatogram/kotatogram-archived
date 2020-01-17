@@ -85,6 +85,7 @@ enum ClipStopperType {
 
 namespace Notify {
 
+void showScheduledButtonChanged();
 void userIsBotChanged(UserData *user);
 void botCommandsChanged(UserData *user);
 

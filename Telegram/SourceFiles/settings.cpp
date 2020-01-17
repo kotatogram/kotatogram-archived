@@ -221,6 +221,7 @@ rpl::producer<bool> BigEmojiOutlineChanges() {
 	return gBigEmojiOutline.changes();
 }
 
+bool gAlwaysShowScheduled = false;
 ScaleVector gInterfaceScales;
 
 bool HasCustomScales() {
