@@ -204,6 +204,17 @@ bool Manager::readCustomFile() {
 		SetBigEmojiOutline(v);
 	});
 	
+	ReadArrayOption(settings, "scales", [&](auto v) {
+		ClearCustomScales();
+		for (auto i = v.constBegin(), e = v.constEnd(); i != e; ++i) {
+			if (!(*i).isDouble()) {
+				continue;
+			}
+
+			AddCustomScale((*i).toInt());
+		}
+	});
+
 	return true;
 }
 
@@ -232,6 +243,9 @@ void Manager::writeDefaultFile() {
 	settings.insert(qsl("fonts"), settingsFonts);
 
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
+
+	auto settingsScales = QJsonArray();
+	settings.insert(qsl("scales"), settingsScales);
 
 	auto document = QJsonDocument();
 	document.setObject(settings);
@@ -275,6 +289,15 @@ void Manager::writeCurrentSettings() {
 	settings.insert(qsl("fonts"), settingsFonts);
 
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
+
+	auto settingsScales = QJsonArray();
+	auto currentScales = cInterfaceScales();
+
+	for (int i = 0; i < currentScales.size(); i++) {
+		settingsScales << currentScales[i];
+	}
+
+	settings.insert(qsl("scales"), settingsScales);
 
 	auto document = QJsonDocument();
 	document.setObject(settings);
