@@ -143,11 +143,11 @@ void MainWindow::createTrayIconMenu() {
 		: tr::lng_enable_notifications_from_tray(tr::now);
 
 	if (Platform::IsLinux()) {
-		trayIconMenu->addAction(tr::lng_open_from_tray(tr::now), this, SLOT(showFromTray()));
+		trayIconMenu->addAction(tr::ktg_open_from_tray(tr::now), this, SLOT(showFromTray()));
 	}
 	trayIconMenu->addAction(tr::lng_minimize_to_tray(tr::now), this, SLOT(minimizeToTray()));
 	trayIconMenu->addAction(notificationActionText, this, SLOT(toggleDisplayNotifyFromTray()));
-	trayIconMenu->addAction(tr::lng_quit_from_tray(tr::now), this, SLOT(quitFromTray()));
+	trayIconMenu->addAction(tr::ktg_quit_from_tray(tr::now), this, SLOT(quitFromTray()));
 
 	initTrayMenuHook();
 }
@@ -605,7 +605,7 @@ void MainWindow::updateTrayMenu(bool force) {
 		connect(toggleAction, SIGNAL(triggered(bool)), this, active ? SLOT(minimizeToTray()) : SLOT(showFromTray()));
 		toggleAction->setText(active
 			? tr::lng_minimize_to_tray(tr::now)
-			: tr::lng_open_from_tray(tr::now));
+			: tr::ktg_open_from_tray(tr::now));
 	}
 	auto notificationAction = actions.at(Platform::IsLinux() ? 2 : 1);
 	auto notificationActionText = Global::DesktopNotify()

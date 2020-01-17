@@ -78,7 +78,7 @@ void activateBotCommand(
 	} break;
 
 	case ButtonType::Buy: {
-		Ui::show(Box<InformBox>(tr::lng_payments_not_supported(tr::now)));
+		Ui::show(Box<InformBox>(tr::ktg_payments_not_supported(tr::now)));
 	} break;
 
 	case ButtonType::Url: {
@@ -98,7 +98,7 @@ void activateBotCommand(
 
 	case ButtonType::RequestLocation: {
 		hideSingleUseKeyboard(msg);
-		Ui::show(Box<InformBox>(tr::lng_bot_share_location_unavailable(tr::now)));
+		Ui::show(Box<InformBox>(tr::ktg_bot_share_location_unavailable(tr::now)));
 	} break;
 
 	case ButtonType::RequestPhone: {

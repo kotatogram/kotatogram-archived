@@ -118,7 +118,7 @@ QIcon CreateOfficialIcon(Main::Account *account) {
 QIcon CreateIcon(Main::Account *account) {
 	auto result = CreateOfficialIcon(account);
 	if (Platform::IsLinux()) {
-		return QIcon::fromTheme("telegram", result);
+		return QIcon::fromTheme("kotatogram", result);
 	}
 	return result;
 }
@@ -128,7 +128,7 @@ MainWindow::MainWindow(not_null<Controller*> controller)
 , _positionUpdatedTimer([=] { savePosition(); })
 , _outdated(CreateOutdatedBar(this))
 , _body(this)
-, _titleText(qsl("Telegram")) {
+, _titleText(qsl("Kotatogram")) {
 	subscribe(Theme::Background(), [=](
 			const Theme::BackgroundUpdate &data) {
 		if (data.paletteChanged()) {
@@ -517,7 +517,7 @@ void MainWindow::updateUnreadCounter() {
 	const auto counter = account().sessionExists()
 		? account().session().data().unreadBadge()
 		: 0;
-	_titleText = (counter > 0) ? qsl("Telegram (%1)").arg(counter) : qsl("Telegram");
+	_titleText = (counter > 0) ? qsl("Kotatogram (%1)").arg(counter) : qsl("Kotatogram");
 
 	unreadCounterChangedHook();
 }

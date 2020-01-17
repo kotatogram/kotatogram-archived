@@ -1038,7 +1038,7 @@ void ProxiesBoxController::ShowApplyConfirmation(
 	} else {
 		Ui::show(Box<InformBox>(
 			(proxy.status() == ProxyData::Status::Unsupported
-				? tr::lng_proxy_unsupported(tr::now)
+				? tr::ktg_proxy_unsupported(tr::now)
 				: tr::lng_proxy_invalid(tr::now))));
 	}
 }
