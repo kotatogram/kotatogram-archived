@@ -44,5 +44,7 @@
 	"ktg_manage_peer_subscribers": "Подписчики",
 	"ktg_settings_show_json_settings": "Показать файл настроек",
 	"ktg_settings_restart": "Перезапустить Kotatogram",
-	"ktg_copy_btn_callback": "Копировать callback-данные"
+	"ktg_copy_btn_callback": "Копировать callback-данные",
+	"ktg_pinned_message_show": "Показать закреплённое сообщение",
+	"ktg_pinned_message_hide": "Скрыть закреплённое сообщение"
 }
