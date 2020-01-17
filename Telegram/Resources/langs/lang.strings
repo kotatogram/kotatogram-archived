@@ -2280,6 +2280,8 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 "ktg_settings_chats" = "Chats";
 
+"ktg_settings_emoji_outline" = "Big emoji outline";
+
 "ktg_fonts_title" = "Fonts";
 "ktg_settings_fonts" = "Change application fonts";
 "ktg_fonts_reset" = "Reset";
