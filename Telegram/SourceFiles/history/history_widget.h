@@ -313,7 +313,7 @@ public slots:
 
 private slots:
 	void onHashtagOrBotCommandInsert(QString str, FieldAutocomplete::ChooseMethod method);
-	void onMentionInsert(UserData *user);
+	void onMentionInsert(UserData *user, FieldAutocomplete::ChooseMethod method);
 	void onInlineBotCancel();
 	void onMembersDropdownShow();
 
