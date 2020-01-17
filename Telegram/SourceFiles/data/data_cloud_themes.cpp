@@ -151,7 +151,7 @@ void CloudThemes::resolve(
 	}).fail([=](const RPCError &error) {
 		if (error.type() == qstr("THEME_FORMAT_INVALID")) {
 			Ui::show(Box<InformBox>(
-				tr::lng_theme_no_desktop(tr::now)));
+				tr::ktg_theme_no_desktop(tr::now)));
 		}
 	}).send();
 }
@@ -172,7 +172,7 @@ void CloudThemes::showPreview(const CloudTheme &cloud) {
 			cloud));
 	} else {
 		Ui::show(Box<InformBox>(
-			tr::lng_theme_no_desktop(tr::now)));
+			tr::ktg_theme_no_desktop(tr::now)));
 	}
 }
 

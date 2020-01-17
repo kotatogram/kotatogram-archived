@@ -47,12 +47,12 @@ namespace {
 
 constexpr auto kDisableTrayCounter = "TDESKTOP_DISABLE_TRAY_COUNTER"_cs;
 constexpr auto kForcePanelIcon = "TDESKTOP_FORCE_PANEL_ICON"_cs;
-constexpr auto kPanelTrayIconName = "telegram-panel"_cs;
-constexpr auto kMutePanelTrayIconName = "telegram-mute-panel"_cs;
-constexpr auto kAttentionPanelTrayIconName = "telegram-attention-panel"_cs;
+constexpr auto kPanelTrayIconName = "kotatogram-panel"_cs;
+constexpr auto kMutePanelTrayIconName = "kotatogram-mute-panel"_cs;
+constexpr auto kAttentionPanelTrayIconName = "kotatogram-attention-panel"_cs;
 constexpr auto kSNIWatcherService = "org.kde.StatusNotifierWatcher"_cs;
 constexpr auto kPropertiesInterface = "org.freedesktop.DBus.Properties"_cs;
-constexpr auto kTrayIconFilename = "tdesktop-trayicon-XXXXXX.png"_cs;
+constexpr auto kTrayIconFilename = "kdesktop-trayicon-XXXXXX.png"_cs;
 
 constexpr auto kAppMenuService = "com.canonical.AppMenu.Registrar"_cs;
 constexpr auto kAppMenuObjectPath = "/com/canonical/AppMenu/Registrar"_cs;
