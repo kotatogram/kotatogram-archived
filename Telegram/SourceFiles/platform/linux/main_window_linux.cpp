@@ -95,16 +95,6 @@ QImage _trayIconImageGen() {
 		if (_trayIconImageBack.isNull() || _trayIconImageBack.width() != _trayIconSize) {
 			_trayIconImageBack = Core::App().logo().scaled(_trayIconSize, _trayIconSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 			_trayIconImageBack = _trayIconImageBack.convertToFormat(QImage::Format_ARGB32);
-			int w = _trayIconImageBack.width(), h = _trayIconImageBack.height(), perline = _trayIconImageBack.bytesPerLine();
-			uchar *bytes = _trayIconImageBack.bits();
-			for (int32 y = 0; y < h; ++y) {
-				for (int32 x = 0; x < w; ++x) {
-					int32 srcoff = y * perline + x * 4;
-					bytes[srcoff + QT_RED  ] = qMax(bytes[srcoff + QT_RED  ], uchar(224));
-					bytes[srcoff + QT_GREEN] = qMax(bytes[srcoff + QT_GREEN], uchar(165));
-					bytes[srcoff + QT_BLUE ] = qMax(bytes[srcoff + QT_BLUE ], uchar(44));
-				}
-			}
 		}
 		_trayIconImage = _trayIconImageBack;
 		_trayIconMuted = muted;
@@ -479,7 +469,7 @@ void MainWindow::psCreateTrayIcon() {
 			QFileInfo iconFile(_trayIconImageFile());
 			if (iconFile.exists()) {
 				QByteArray path = QFile::encodeName(iconFile.absoluteFilePath());
-				_trayIndicator = Libs::app_indicator_new("Telegram Desktop", path.constData(), APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
+				_trayIndicator = Libs::app_indicator_new("Kotatogram Desktop", path.constData(), APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
 				if (_trayIndicator) {
 					LOG(("Tray Icon: Using appindicator tray icon."));
 				} else {
@@ -520,8 +510,8 @@ void MainWindow::psCreateTrayIcon() {
 					Libs::g_signal_connect_helper(_trayIcon, "activate", GCallback(_trayIconActivate), _trayMenu);
 					Libs::g_signal_connect_helper(_trayIcon, "size-changed", GCallback(_trayIconResized), _trayMenu);
 
-					Libs::gtk_status_icon_set_title(_trayIcon, "Telegram Desktop");
-					Libs::gtk_status_icon_set_tooltip_text(_trayIcon, "Telegram Desktop");
+					Libs::gtk_status_icon_set_title(_trayIcon, "Kotatogram Desktop");
+					Libs::gtk_status_icon_set_tooltip_text(_trayIcon, "Kotatogram Desktop");
 					Libs::gtk_status_icon_set_visible(_trayIcon, true);
 				} else {
 					useStatusIcon = false;
@@ -560,7 +550,7 @@ void MainWindow::psFirstShow() {
 		if(snapName.isEmpty()) {
 			std::vector<QString> possibleDesktopFiles = {
 				str_const_toString(kLauncherBasename),
-				"Telegram.desktop"
+				"Kotatogram.desktop"
 			};
 
 			for (auto it = possibleDesktopFiles.begin(); it != possibleDesktopFiles.end(); it++) {
