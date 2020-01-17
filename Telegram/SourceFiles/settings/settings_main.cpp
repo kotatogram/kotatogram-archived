@@ -105,6 +105,10 @@ void SetupSections(
 		tr::lng_settings_advanced(),
 		Type::Advanced,
 		&st::settingsIconGeneral);
+	addSection(
+		tr::ktg_settings_kotato(),
+		Type::Kotato,
+		&st::settingsIconKotato);
 
 	SetupLanguageButton(container);
 
