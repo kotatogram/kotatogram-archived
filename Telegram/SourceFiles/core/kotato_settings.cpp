@@ -200,6 +200,12 @@ bool Manager::readCustomFile() {
 		});
 	});
 
+	ReadIntOption(settings, "sticker_height", [&](auto v) {
+		if (v >= 64 || v <= 256) {
+			SetStickerHeight(v);
+		}
+	});
+
 	ReadBoolOption(settings, "big_emoji_outline", [&](auto v) {
 		SetBigEmojiOutline(v);
 	});
@@ -251,6 +257,7 @@ void Manager::writeDefaultFile() {
 
 	settings.insert(qsl("fonts"), settingsFonts);
 
+	settings.insert(qsl("sticker_height"), StickerHeight());
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
 	settings.insert(qsl("always_show_scheduled"), cAlwaysShowScheduled());
 	settings.insert(qsl("chat_list_lines"), DialogListLines());
@@ -299,6 +306,7 @@ void Manager::writeCurrentSettings() {
 
 	settings.insert(qsl("fonts"), settingsFonts);
 
+	settings.insert(qsl("sticker_height"), StickerHeight());
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
 	settings.insert(qsl("always_show_scheduled"), cAlwaysShowScheduled());
 	settings.insert(qsl("chat_list_lines"), DialogListLines());

@@ -41,6 +41,33 @@ void SetupKotatoChats(not_null<Ui::VerticalLayout*> container) {
 	AddSkip(container);
 	AddSubsectionTitle(container, tr::ktg_settings_chats());
 
+	const auto stickerHeightLabel = container->add(
+		object_ptr<Ui::LabelSimple>(
+			container,
+			st::settingsAudioVolumeLabel),
+		st::settingsAudioVolumeLabelPadding);
+	const auto stickerHeightSlider = container->add(
+		object_ptr<Ui::MediaSlider>(
+			container,
+			st::settingsAudioVolumeSlider),
+		st::settingsAudioVolumeSliderPadding);
+	const auto updateStickerHeightLabel = [=](int value) {
+		const auto pixels = QString::number(value);
+		stickerHeightLabel->setText(
+			tr::ktg_settings_sticker_height(tr::now, lt_pixels, pixels));
+	};
+	const auto updateStickerHeight = [=](int value) {
+		updateStickerHeightLabel(value);
+		SetStickerHeight(value);
+		KotatoSettings::Write();
+	};
+	stickerHeightSlider->resize(st::settingsAudioVolumeSlider.seekSize);
+	stickerHeightSlider->setPseudoDiscrete(
+		193,
+		[](int val) { return val + 64; },
+		StickerHeight(),
+		updateStickerHeight);
+	updateStickerHeightLabel(StickerHeight());
 	AddButton(
 		container,
 		tr::ktg_settings_emoji_outline(),
