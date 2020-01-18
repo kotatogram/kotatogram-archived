@@ -2344,6 +2344,14 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 "ktg_net_boost_restart_desc" = "You'll need to restart app to change upload boost.\n\nRestart now?";
 
 "ktg_settings_other" = "Other";
+"ktg_settings_show_chat_id" = "Show chat ID";
+"ktg_profile_copy_id" = "Copy ID";
+"ktg_profile_bot_id" = "Bot ID";
+"ktg_profile_user_id" = "User ID";
+"ktg_profile_group_id" = "Group ID";
+"ktg_profile_supergroup_id" = "Supergroup ID";
+"ktg_profile_channel_id" = "Channel ID";
+
 "ktg_settings_show_phone_number" = "Show phone in drawer";
 
 "ktg_user_status_unaccessible" = "account inaccessible";
