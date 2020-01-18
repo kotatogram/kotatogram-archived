@@ -278,6 +278,10 @@ QSize WebPage::countOptimalSize() {
 		_durationWidth = st::msgDateFont->width(_duration);
 	}
 	maxWidth += st::msgPadding.left() + st::webPageLeft + st::msgPadding.right();
+	if (cAdaptiveBubbles()) {
+		accumulate_min(maxWidth, st::msgMaxWidth);
+		accumulate_max(maxWidth, _parent->plainMaxWidth());
+	}
 	auto padding = inBubblePadding();
 	minHeight += padding.top() + padding.bottom();
 
@@ -290,6 +294,10 @@ QSize WebPage::countOptimalSize() {
 QSize WebPage::countCurrentSize(int newWidth) {
 	if (_data->pendingTill) {
 		return { newWidth, minHeight() };
+	}
+
+	if (cAdaptiveBubbles() && !asArticle()) {
+		accumulate_min(newWidth, maxWidth());
 	}
 
 	auto innerWidth = newWidth - st::msgPadding.left() - st::webPageLeft - st::msgPadding.right();
