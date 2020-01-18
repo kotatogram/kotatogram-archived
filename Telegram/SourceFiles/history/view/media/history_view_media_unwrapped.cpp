@@ -32,13 +32,17 @@ UnwrappedMedia::UnwrappedMedia(
 	std::unique_ptr<Content> content)
 : Media(parent)
 , _content(std::move(content)) {
+	StickerHeightChanges(
+	) | rpl::start_with_next([=] {
+		history()->owner().requestItemViewRefresh(_parent->data());
+	}, _lifetime);
 }
 
 QSize UnwrappedMedia::countOptimalSize() {
 	_content->refreshLink();
 	_contentSize = NonEmptySize(DownscaledSize(
 		_content->size(),
-		{ st::maxStickerSize, st::maxStickerSize }));
+		{ st::maxStickerSize, StickerHeight() }));
 	auto maxWidth = _contentSize.width();
 	const auto minimal = st::largeEmojiSize + 2 * st::largeEmojiOutline;
 	auto minHeight = std::max(_contentSize.height(), minimal);

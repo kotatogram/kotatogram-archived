@@ -188,6 +188,10 @@ void SetBigEmojiOutline(bool enabled);
 [[nodiscard]] bool BigEmojiOutline();
 [[nodiscard]] rpl::producer<bool> BigEmojiOutlineChanges();
 
+void SetStickerHeight(int height);
+[[nodiscard]] int StickerHeight();
+[[nodiscard]] rpl::producer<int> StickerHeightChanges();
+
 DeclareSetting(bool, AlwaysShowScheduled);
 using ScaleVector = std::vector<int>;
 DeclareRefSetting(ScaleVector, InterfaceScales);
