@@ -2331,6 +2331,9 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 "ktg_fonts_restart_new_fonts" = "You will need to restart app to apply new fonts.\n\nRestart now?";
 "ktg_fonts_restart_reset" = "You will need to restart app to reset fonts to default.\n\nRestart now?";
 
+"ktg_settings_other" = "Other";
+"ktg_settings_show_phone_number" = "Show phone in drawer";
+
 "ktg_user_status_unaccessible" = "account inaccessible";
 
 "ktg_chat_status_subscribers#one" = "{count} subscriber";

@@ -193,6 +193,8 @@ void SetStickerHeight(int height);
 [[nodiscard]] rpl::producer<int> StickerHeightChanges();
 
 DeclareSetting(bool, AlwaysShowScheduled);
+DeclareSetting(bool, ShowPhoneInDrawer);
+
 using ScaleVector = std::vector<int>;
 DeclareRefSetting(ScaleVector, InterfaceScales);
 bool HasCustomScales();
