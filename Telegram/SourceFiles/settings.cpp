@@ -233,6 +233,8 @@ rpl::producer<bool> BigEmojiOutlineChanges() {
 }
 
 bool gAlwaysShowScheduled = true;
+bool gShowPhoneInDrawer = true;
+
 ScaleVector gInterfaceScales;
 
 bool HasCustomScales() {
