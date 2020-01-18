@@ -2280,6 +2280,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 "ktg_settings_chats" = "Chats";
 
+"ktg_settings_sticker_height" = "Sticker height: {pixels}px";
 "ktg_settings_emoji_outline" = "Big emoji outline";
 
 "ktg_settings_always_show_scheduled" = "Always show scheduled";
