@@ -123,6 +123,28 @@ void SetupKotatoChats(not_null<Ui::VerticalLayout*> container) {
 	AddSkip(container);
 }
 
+void SetupKotatoOther(not_null<Ui::VerticalLayout*> container) {
+	AddDivider(container);
+	AddSkip(container);
+	AddSubsectionTitle(container, tr::ktg_settings_other());
+
+	AddButton(
+		container,
+		tr::ktg_settings_show_phone_number(),
+		st::settingsButton
+	)->toggleOn(
+		rpl::single(cShowPhoneInDrawer())
+	)->toggledValue(
+	) | rpl::filter([](bool enabled) {
+		return (enabled != cShowPhoneInDrawer());
+	}) | rpl::start_with_next([](bool enabled) {
+		cSetShowPhoneInDrawer(enabled);
+		KotatoSettings::Write();
+	}, container->lifetime());
+
+	AddSkip(container);
+}
+
 Kotato::Kotato(
 	QWidget *parent,
 	not_null<Window::SessionController*> controller)
@@ -134,6 +156,7 @@ void Kotato::setupContent(not_null<Window::SessionController*> controller) {
 	const auto content = Ui::CreateChild<Ui::VerticalLayout>(this);
 
 	SetupKotatoChats(content);
+	SetupKotatoOther(content);
 
 	Ui::ResizeFitChild(this, content);
 }
