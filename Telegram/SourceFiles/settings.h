@@ -193,6 +193,8 @@ void SetStickerHeight(int height);
 [[nodiscard]] rpl::producer<int> StickerHeightChanges();
 
 DeclareSetting(bool, AlwaysShowScheduled);
+DeclareSetting(bool, ShowChatId);
+
 DeclareSetting(int, NetSpeedBoost);
 DeclareSetting(int, NetRequestsCount);
 DeclareSetting(int, NetUploadSessionsCount);
