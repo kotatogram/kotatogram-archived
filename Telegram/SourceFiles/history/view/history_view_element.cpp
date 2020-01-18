@@ -166,7 +166,7 @@ void UnreadBar::paint(Painter &p, int y, int w) const {
 
 	int left = st::msgServiceMargin.left();
 	int maxwidth = w;
-	if (Adaptive::ChatWide()) {
+	if (Adaptive::ChatWide() && !AdaptiveBubbles()) {
 		maxwidth = qMin(
 			maxwidth,
 			st::msgMaxWidth
@@ -318,6 +318,10 @@ QString Element::skipBlock() const {
 }
 
 int Element::infoWidth() const {
+	return 0;
+}
+
+int Element::plainMaxWidth() const {
 	return 0;
 }
 
