@@ -213,7 +213,11 @@ bool Manager::readCustomFile() {
 	ReadBoolOption(settings, "always_show_scheduled", [&](auto v) {
 		cSetAlwaysShowScheduled(v);
 	});
-	
+
+	ReadBoolOption(settings, "show_phone_in_drawer", [&](auto v) {
+		cSetShowPhoneInDrawer(v);
+	});
+
 	ReadArrayOption(settings, "scales", [&](auto v) {
 		ClearCustomScales();
 		for (auto i = v.constBegin(), e = v.constEnd(); i != e; ++i) {
@@ -260,6 +264,7 @@ void Manager::writeDefaultFile() {
 	settings.insert(qsl("sticker_height"), StickerHeight());
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
 	settings.insert(qsl("always_show_scheduled"), cAlwaysShowScheduled());
+	settings.insert(qsl("show_phone_in_drawer"), cShowPhoneInDrawer());
 	settings.insert(qsl("chat_list_lines"), DialogListLines());
 
 	auto settingsScales = QJsonArray();
@@ -309,6 +314,7 @@ void Manager::writeCurrentSettings() {
 	settings.insert(qsl("sticker_height"), StickerHeight());
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
 	settings.insert(qsl("always_show_scheduled"), cAlwaysShowScheduled());
+	settings.insert(qsl("show_phone_in_drawer"), cShowPhoneInDrawer());
 	settings.insert(qsl("chat_list_lines"), DialogListLines());
 
 	auto settingsScales = QJsonArray();
