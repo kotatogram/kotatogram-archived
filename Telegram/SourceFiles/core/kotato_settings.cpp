@@ -206,6 +206,16 @@ bool Manager::readCustomFile() {
 		}
 	});
 
+	auto isAdaptiveBubblesSet = ReadBoolOption(settings, "adaptive_bubbles", [&](auto v) {
+		SetAdaptiveBubbles(v);
+	});
+
+	if (!isAdaptiveBubblesSet) {
+		ReadBoolOption(settings, "adaptive_baloons", [&](auto v) {
+			SetAdaptiveBubbles(v);
+		});
+	}
+
 	ReadBoolOption(settings, "big_emoji_outline", [&](auto v) {
 		SetBigEmojiOutline(v);
 	});
@@ -287,6 +297,7 @@ void Manager::writeDefaultFile() {
 	settings.insert(qsl("fonts"), settingsFonts);
 
 	settings.insert(qsl("sticker_height"), StickerHeight());
+	settings.insert(qsl("adaptive_bubbles"), AdaptiveBubbles());
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
 	settings.insert(qsl("always_show_scheduled"), cAlwaysShowScheduled());
 	settings.insert(qsl("show_chat_id"), cShowChatId());
@@ -339,6 +350,7 @@ void Manager::writeCurrentSettings() {
 	settings.insert(qsl("fonts"), settingsFonts);
 
 	settings.insert(qsl("sticker_height"), StickerHeight());
+	settings.insert(qsl("adaptive_bubbles"), AdaptiveBubbles());
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
 	settings.insert(qsl("always_show_scheduled"), cAlwaysShowScheduled());
 	settings.insert(qsl("show_chat_id"), cShowChatId());
