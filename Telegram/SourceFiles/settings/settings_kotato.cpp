@@ -68,6 +68,21 @@ void SetupKotatoChats(not_null<Ui::VerticalLayout*> container) {
 		StickerHeight(),
 		updateStickerHeight);
 	updateStickerHeightLabel(StickerHeight());
+
+	AddButton(
+		container,
+		tr::ktg_settings_adaptive_bubbles(),
+		st::settingsButton
+	)->toggleOn(
+		rpl::single(AdaptiveBubbles())
+	)->toggledValue(
+	) | rpl::filter([](bool enabled) {
+		return (enabled != AdaptiveBubbles());
+	}) | rpl::start_with_next([](bool enabled) {
+		SetAdaptiveBubbles(enabled);
+		KotatoSettings::Write();
+	}, container->lifetime());
+
 	AddButton(
 		container,
 		tr::ktg_settings_emoji_outline(),
