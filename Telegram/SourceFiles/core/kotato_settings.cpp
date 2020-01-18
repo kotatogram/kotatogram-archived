@@ -161,6 +161,11 @@ bool Manager::readCustomFile() {
 		cSetAlwaysShowScheduled((*settingsAlwaysShowScheduledIt).toBool());
 	}
 
+	const auto settingsShowDrawerPhoneIt = settings.constFind(qsl("show_phone_in_drawer"));
+	if (settingsShowDrawerPhoneIt != settings.constEnd() && (*settingsShowDrawerPhoneIt).isBool()) {
+		cSetShowPhoneInDrawer((*settingsShowDrawerPhoneIt).toBool());
+	}
+
 	const auto settingsScalesIt = settings.constFind(qsl("scales"));
 	if (settingsScalesIt != settings.constEnd() && (*settingsScalesIt).isArray()) {
 		const auto settingsScalesArray = (*settingsScalesIt).toArray();
@@ -212,6 +217,7 @@ void Manager::writeDefaultFile() {
 	settings.insert(qsl("sticker_height"), StickerHeight());
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
 	settings.insert(qsl("always_show_scheduled"), cAlwaysShowScheduled());
+	settings.insert(qsl("show_phone_in_drawer"), cShowPhoneInDrawer());
 	settings.insert(qsl("chat_list_lines"), DialogListLines());
 
 	auto settingsScales = QJsonArray();
@@ -261,6 +267,7 @@ void Manager::writeCurrentSettings() {
 	settings.insert(qsl("sticker_height"), StickerHeight());
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
 	settings.insert(qsl("always_show_scheduled"), cAlwaysShowScheduled());
+	settings.insert(qsl("show_phone_in_drawer"), cShowPhoneInDrawer());
 	settings.insert(qsl("chat_list_lines"), DialogListLines());
 
 	auto settingsScales = QJsonArray();
