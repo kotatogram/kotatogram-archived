@@ -232,6 +232,17 @@ rpl::producer<bool> BigEmojiOutlineChanges() {
 	return gBigEmojiOutline.changes();
 }
 
+rpl::variable<bool> gAdaptiveBubbles = false;
+void SetAdaptiveBubbles(bool enabled) {
+	gAdaptiveBubbles = enabled;
+}
+bool AdaptiveBubbles() {
+	return gAdaptiveBubbles.current();
+}
+rpl::producer<bool> AdaptiveBubblesChanges() {
+	return gAdaptiveBubbles.changes();
+}
+
 bool gAlwaysShowScheduled = true;
 bool gShowChatId = true;
 
