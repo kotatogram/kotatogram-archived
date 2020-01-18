@@ -72,5 +72,12 @@
 	"ktg_net_speed_boost_big": "Высокое",
 	"ktg_net_boost_restart_desc": "Для изменения ускорения загрузки на сервер требуется перезапуск.\n\nПерезапустить сейчас?",
 	"ktg_settings_other": "Прочие",
+	"ktg_settings_show_chat_id": "Показывать ID чата",
+	"ktg_profile_copy_id": "Копировать ID",
+	"ktg_profile_bot_id": "ID бота",
+	"ktg_profile_user_id": "ID пользователя",
+	"ktg_profile_group_id": "ID группы",
+	"ktg_profile_supergroup_id": "ID супергруппы",
+	"ktg_profile_channel_id": "ID канала",
 	"ktg_settings_show_phone_number": "Показывать телефон в боковом меню"
 }
