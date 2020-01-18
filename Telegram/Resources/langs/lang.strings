@@ -2327,6 +2327,9 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 "ktg_fonts_restart" = "Restart";
 
+"ktg_settings_other" = "Other";
+"ktg_settings_show_phone_number" = "Show phone in drawer";
+
 "ktg_user_status_unaccessible" = "account inaccessible";
 
 "ktg_chat_status_subscribers#one" = "{count} subscriber";

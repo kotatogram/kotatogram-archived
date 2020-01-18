@@ -62,5 +62,7 @@
 	"ktg_fonts_monospaced": "Моноширинный шрифт",
 	"ktg_fonts_restart_new_fonts": "Для применения новых шрифтов требуется перезапуск.\n\nПерезапустить сейчас?",
 	"ktg_fonts_restart_reset": "Для сброса шрифтов к стандартным требуется перезапуск.\n\nПерезапустить сейчас?",
-	"ktg_fonts_restart": "Перезапустить"
+	"ktg_fonts_restart": "Перезапустить",
+	"ktg_settings_other": "Прочие",
+	"ktg_settings_show_phone_number": "Показывать телефон в боковом меню"
 }
