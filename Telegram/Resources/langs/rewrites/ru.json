@@ -63,6 +63,15 @@
 	"ktg_fonts_restart_new_fonts": "Для применения новых шрифтов требуется перезапуск.\n\nПерезапустить сейчас?",
 	"ktg_fonts_restart_reset": "Для сброса шрифтов к стандартным требуется перезапуск.\n\nПерезапустить сейчас?",
 	"ktg_fonts_restart": "Перезапустить",
+	"ktg_settings_network": "Сеть",
+	"ktg_settings_net_speed_boost": "Ускорение загрузки на сервер",
+	"ktg_net_speed_boost_title": "Ускорение загрузки на сервер",
+	"ktg_net_speed_boost_desc": "Внимание: высокие значения параметра при слабых сетях могут сделать ещё хуже. Используйте на свой страх и риск.\n\nДля сохранения изменений требуется перезапуск.",
+	"ktg_net_speed_boost_default": "Отключено",
+	"ktg_net_speed_boost_slight": "Небольшое",
+	"ktg_net_speed_boost_medium": "Среднее",
+	"ktg_net_speed_boost_big": "Высокое",
+	"ktg_net_boost_restart_desc": "Для изменения ускорения загрузки на сервер требуется перезапуск.\n\nПерезапустить сейчас?",
 	"ktg_settings_other": "Прочие",
 	"ktg_settings_show_phone_number": "Показывать телефон в боковом меню"
 }
