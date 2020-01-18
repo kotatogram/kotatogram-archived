@@ -233,6 +233,8 @@ rpl::producer<bool> BigEmojiOutlineChanges() {
 }
 
 bool gAlwaysShowScheduled = true;
+bool gShowChatId = true;
+
 int gNetSpeedBoost = 0;
 int gNetRequestsCount = 2;
 int gNetUploadSessionsCount = 2;

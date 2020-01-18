@@ -159,6 +159,20 @@ void SetupKotatoOther(not_null<Ui::VerticalLayout*> container) {
 		KotatoSettings::Write();
 	}, container->lifetime());
 
+	AddButton(
+		container,
+		tr::ktg_settings_show_chat_id(),
+		st::settingsButton
+	)->toggleOn(
+		rpl::single(cShowChatId())
+	)->toggledValue(
+	) | rpl::filter([](bool enabled) {
+		return (enabled != cShowChatId());
+	}) | rpl::start_with_next([](bool enabled) {
+		cSetShowChatId(enabled);
+		KotatoSettings::Write();
+	}, container->lifetime());
+
 	AddSkip(container);
 }
 
