@@ -143,6 +143,14 @@ bool Manager::readCustomFile() {
 			cSetMonospaceFont((*settingsFontsMonospace).toString());
 		}
 	}
+
+	const auto settingsStickerHeightIt = settings.constFind(qsl("sticker_height"));
+	if (settingsStickerHeightIt != settings.constEnd()) {
+		const auto settingsStickerHeight = (*settingsStickerHeightIt).toInt();
+		if (settingsStickerHeight >= 64 || settingsStickerHeight <= 256) {
+			SetStickerHeight(settingsStickerHeight);
+		}
+	}
 	const auto settingsBigEmojiOutlineIt = settings.constFind(qsl("big_emoji_outline"));
 	if (settingsBigEmojiOutlineIt != settings.constEnd() && (*settingsBigEmojiOutlineIt).isBool()) {
 		SetBigEmojiOutline((*settingsBigEmojiOutlineIt).toBool());
@@ -201,6 +209,7 @@ void Manager::writeDefaultFile() {
 
 	settings.insert(qsl("fonts"), settingsFonts);
 
+	settings.insert(qsl("sticker_height"), StickerHeight());
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
 	settings.insert(qsl("always_show_scheduled"), cAlwaysShowScheduled());
 	settings.insert(qsl("chat_list_lines"), DialogListLines());
@@ -249,6 +258,7 @@ void Manager::writeCurrentSettings() {
 
 	settings.insert(qsl("fonts"), settingsFonts);
 
+	settings.insert(qsl("sticker_height"), StickerHeight());
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
 	settings.insert(qsl("always_show_scheduled"), cAlwaysShowScheduled());
 	settings.insert(qsl("chat_list_lines"), DialogListLines());

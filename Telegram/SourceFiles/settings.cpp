@@ -210,6 +210,17 @@ rpl::producer<> UpdatedRecentEmoji() {
 QString gMainFont, gSemiboldFont, gMonospaceFont;
 bool gSemiboldFontIsBold = false;
 
+rpl::variable<int> gStickerHeight = 170;
+void SetStickerHeight(int height) {
+	gStickerHeight = height;
+}
+int StickerHeight() {
+	return gStickerHeight.current();
+}
+rpl::producer<int> StickerHeightChanges() {
+	return gStickerHeight.changes();
+}
+
 rpl::variable<bool> gBigEmojiOutline = true;
 void SetBigEmojiOutline(bool enabled) {
 	gBigEmojiOutline = enabled;
