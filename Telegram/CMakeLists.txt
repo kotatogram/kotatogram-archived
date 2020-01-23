@@ -207,6 +207,8 @@ PRIVATE
     boxes/local_storage_box.h
     boxes/mute_settings_box.cpp
     boxes/mute_settings_box.h
+    boxes/net_boost_box.cpp
+    boxes/net_boost_box.h
     boxes/peer_list_box.cpp
     boxes/peer_list_box.h
     boxes/peer_list_controllers.cpp
