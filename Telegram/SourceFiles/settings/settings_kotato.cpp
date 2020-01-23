@@ -123,6 +123,23 @@ void SetupKotatoChats(not_null<Ui::VerticalLayout*> container) {
 	AddSkip(container);
 }
 
+void SetupKotatoNetwork(not_null<Ui::VerticalLayout*> container) {
+	AddDivider(container);
+	AddSkip(container);
+	AddSubsectionTitle(container, tr::ktg_settings_network());
+
+	AddButtonWithLabel(
+		container,
+		tr::ktg_settings_net_speed_boost(),
+		rpl::single(NetBoostBox::BoostLabel(cNetSpeedBoost())),
+		st::settingsButton
+	)->addClickHandler([=] {
+		Ui::show(Box<NetBoostBox>());
+	});
+
+	AddSkip(container);
+}
+
 void SetupKotatoOther(not_null<Ui::VerticalLayout*> container) {
 	AddDivider(container);
 	AddSkip(container);
@@ -156,6 +173,7 @@ void Kotato::setupContent(not_null<Window::SessionController*> controller) {
 	const auto content = Ui::CreateChild<Ui::VerticalLayout>(this);
 
 	SetupKotatoChats(content);
+	SetupKotatoNetwork(content);
 	SetupKotatoOther(content);
 
 	Ui::ResizeFitChild(this, content);
