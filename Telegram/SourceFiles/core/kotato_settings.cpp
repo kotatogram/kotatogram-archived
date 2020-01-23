@@ -214,6 +214,27 @@ bool Manager::readCustomFile() {
 		cSetAlwaysShowScheduled(v);
 	});
 
+	ReadOption(settings, "net_speed_boost", [&](auto v) {
+		if (v.isString()) {
+
+			const auto option = v.toString();
+			if (option == "high") {
+				SetNetworkBoost(3);
+			} else if (option == "medium") {
+				SetNetworkBoost(2);
+			} else if (option == "low") {
+				SetNetworkBoost(1);
+			} else {
+				SetNetworkBoost(0);
+			}
+
+		} else if (v.isNull()) {
+			SetNetworkBoost(0);
+		} else if (v.isDouble()) {
+			SetNetworkBoost(v.toInt());
+		}
+	});
+
 	ReadBoolOption(settings, "show_phone_in_drawer", [&](auto v) {
 		cSetShowPhoneInDrawer(v);
 	});
@@ -264,6 +285,7 @@ void Manager::writeDefaultFile() {
 	settings.insert(qsl("sticker_height"), StickerHeight());
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
 	settings.insert(qsl("always_show_scheduled"), cAlwaysShowScheduled());
+	settings.insert(qsl("net_speed_boost"), QJsonValue(QJsonValue::Null));
 	settings.insert(qsl("show_phone_in_drawer"), cShowPhoneInDrawer());
 	settings.insert(qsl("chat_list_lines"), DialogListLines());
 
@@ -314,6 +336,7 @@ void Manager::writeCurrentSettings() {
 	settings.insert(qsl("sticker_height"), StickerHeight());
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
 	settings.insert(qsl("always_show_scheduled"), cAlwaysShowScheduled());
+	settings.insert(qsl("net_speed_boost"), cNetSpeedBoost());
 	settings.insert(qsl("show_phone_in_drawer"), cShowPhoneInDrawer());
 	settings.insert(qsl("chat_list_lines"), DialogListLines());
 
