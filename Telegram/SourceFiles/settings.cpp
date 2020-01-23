@@ -233,6 +233,11 @@ rpl::producer<bool> BigEmojiOutlineChanges() {
 }
 
 bool gAlwaysShowScheduled = false;
+int gNetSpeedBoost = 0;
+int gNetRequestsCount = 2;
+int gNetUploadSessionsCount = 2;
+int gNetUploadRequestInterval = 500;
+
 bool gShowPhoneInDrawer = true;
 
 ScaleVector gInterfaceScales;
