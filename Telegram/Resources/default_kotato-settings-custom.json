@@ -11,6 +11,7 @@
     // "sticker_height": 170,
     // "big_emoji_outline": true,
     // "always_show_scheduled": false,
+    // "net_speed_boost": null,
     // "show_phone_in_drawer": true,
     // "scales": []
 }
