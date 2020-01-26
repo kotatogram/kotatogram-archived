@@ -22,6 +22,8 @@ class Painter;
 
 namespace Ui {
 
+void AddCustomReplacement(QString from, QString to);
+
 const auto kClearFormatSequence = QKeySequence("ctrl+shift+n");
 const auto kStrikeOutSequence = QKeySequence("ctrl+shift+x");
 const auto kMonospaceSequence = QKeySequence("ctrl+shift+m");
