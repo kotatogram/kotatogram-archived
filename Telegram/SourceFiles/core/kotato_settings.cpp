@@ -13,6 +13,7 @@ https://github.com/kotatogram/kotatogram-desktop/blob/dev/LEGAL
 #include "core/application.h"
 #include "base/parse_helper.h"
 #include "facades.h"
+#include "ui/widgets/input_fields.h"
 
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
@@ -273,6 +274,25 @@ bool Manager::readCustomFile() {
 	ReadBoolOption(settings, "disable_up_edit", [&](auto v) {
 		cSetDisableUpEdit(v);
 	});
+
+	ReadArrayOption(settings, "replaces", [&](auto v) {
+		for (auto i = v.constBegin(), e = v.constEnd(); i != e; ++i) {
+			if (!(*i).isArray()) {
+				continue;
+			}
+
+			const auto a = (*i).toArray();
+
+			if (a.size() != 2 || !a.at(0).isString() || !a.at(1).isString()) {
+				continue;
+			}
+			const auto from = a.at(0).toString();
+			const auto to = a.at(1).toString();
+
+			AddCustomReplace(from, to);
+			Ui::AddCustomReplacement(from, to);
+		}
+	});
 	return true;
 }
 
@@ -312,6 +332,9 @@ void Manager::writeDefaultFile() {
 
 	auto settingsScales = QJsonArray();
 	settings.insert(qsl("scales"), settingsScales);
+
+	auto settingsReplaces = QJsonArray();
+	settings.insert(qsl("replaces"), settingsReplaces);
 
 	auto document = QJsonDocument();
 	document.setObject(settings);
@@ -372,6 +395,17 @@ void Manager::writeCurrentSettings() {
 	}
 
 	settings.insert(qsl("scales"), settingsScales);
+
+	auto settingsReplaces = QJsonArray();
+	auto currentReplaces = cCustomReplaces();
+
+	for (auto i = currentReplaces.constBegin(), e = currentReplaces.constEnd(); i != e; ++i) {
+		auto a = QJsonArray();
+		a << i.key() << i.value();
+		settingsReplaces << a;
+	}
+
+	settings.insert(qsl("replaces"), settingsReplaces);
 
 	auto document = QJsonDocument();
 	document.setObject(settings);
