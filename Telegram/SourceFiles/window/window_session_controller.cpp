@@ -316,7 +316,7 @@ bool SessionController::isGifPausedAtLeastFor(GifPauseReason reason) const {
 }
 
 int SessionController::dialogsSmallColumnWidth() const {
-	return st::dialogsPadding.x() + st::dialogsPhotoSize + st::dialogsPadding.x();
+	return st::dialogsPadding.x() + (DialogListLines() == 1 ? st::dialogsUnreadHeight : st::dialogsPhotoSize) + st::dialogsPadding.x();
 }
 
 int SessionController::minimalThreeColumnWidth() const {
