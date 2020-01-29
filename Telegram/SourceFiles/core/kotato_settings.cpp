@@ -215,6 +215,11 @@ bool Manager::readCustomFile() {
 		}
 	});
 
+	ReadIntOption(settings, "chat_list_lines", [&](auto v) {
+		if (v >= 1 || v <= 2) {
+			SetDialogListLines(v);
+		}
+	});
 	return true;
 }
 
@@ -243,6 +248,7 @@ void Manager::writeDefaultFile() {
 	settings.insert(qsl("fonts"), settingsFonts);
 
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
+	settings.insert(qsl("chat_list_lines"), DialogListLines());
 
 	auto settingsScales = QJsonArray();
 	settings.insert(qsl("scales"), settingsScales);
@@ -289,6 +295,7 @@ void Manager::writeCurrentSettings() {
 	settings.insert(qsl("fonts"), settingsFonts);
 
 	settings.insert(qsl("big_emoji_outline"), BigEmojiOutline());
+	settings.insert(qsl("chat_list_lines"), DialogListLines());
 
 	auto settingsScales = QJsonArray();
 	auto currentScales = cInterfaceScales();
