@@ -19,6 +19,9 @@
 
 namespace style {
 namespace internal {
+
+bool GetUseSystemFont();
+
 namespace {
 
 constexpr auto kMinContrastAlpha = 64;
@@ -55,16 +58,18 @@ void ResolveMonospaceFont() {
 	if (!CustomMonospaceFont.isEmpty()) {
 		tryFont(CustomMonospaceFont);
 	}
-	tryFont("Consolas");
-	tryFont("Liberation Mono");
-	tryFont("Menlo");
-	tryFont("Courier");
+	if (!GetUseSystemFont()) {
+		tryFont("Consolas");
+		tryFont("Liberation Mono");
+		tryFont("Menlo");
+		tryFont("Courier");
+	}
 	if (family.isEmpty()) {
 		const auto type = QFontDatabase::FixedFont;
 		family = QFontDatabase::systemFont(type).family();
 	}
 	const auto size = st::normalFont->f.pixelSize();
-	ResolvedMonospaceFont = style::font(size, 0, family);
+	ResolvedMonospaceFont = style::font(size, 0, family)->monospace();
 }
 
 } // namespace

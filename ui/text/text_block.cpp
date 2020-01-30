@@ -323,8 +323,8 @@ TextBlock::TextBlock(const style::font &font, const QString &str, QFixed minResi
 
 		if ((flags & TextBlockFPre) || (flags & TextBlockFCode)) {
 			blockFont = style::MonospaceFont();
-			if (blockFont->size() != font->size() || blockFont->flags() != font->flags()) {
-				blockFont = style::font(font->size(), font->flags(), blockFont->family());
+			if (blockFont->size() != font->size()) {
+				blockFont = style::font(font->size(), blockFont->flags(), blockFont->family());
 			}
 		} else {
 			if (flags & TextBlockFBold) {
@@ -335,9 +335,13 @@ TextBlock::TextBlock(const style::font &font, const QString &str, QFixed minResi
 					blockFont = style::font(font->size(), font->flags(), blockFont->family());
 				}
 			}
-			if (flags & TextBlockFItalic) blockFont = blockFont->italic();
-			if (flags & TextBlockFUnderline) blockFont = blockFont->underline();
-			if (flags & TextBlockFStrikeOut) blockFont = blockFont->strikeout();
+		}
+
+		if (flags & TextBlockFItalic) blockFont = blockFont->italic();
+		if (flags & TextBlockFUnderline) blockFont = blockFont->underline();
+		if (flags & TextBlockFStrikeOut) blockFont = blockFont->strikeout();
+
+		if (flags & TextBlockFSemibold) {
 			if (flags & TextBlockFTilde) { // tilde fix in OpenSans
 				blockFont = st::semiboldFont;
 			}
