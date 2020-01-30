@@ -657,9 +657,8 @@ void RemoveDocumentTags(
 style::font AdjustFont(
 		const style::font &font,
 		const style::font &original) {
-	return (font->size() != original->size()
-		|| font->flags() != original->flags())
-		? style::font(original->size(), original->flags(), font->family())
+	return (font->size() != original->size())
+		? style::font(original->size(), font->flags(), font->family())
 		: font;
 }
 
