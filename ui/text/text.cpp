@@ -2015,8 +2015,8 @@ private:
 		auto result = f;
 		if ((flags & TextBlockFPre) || (flags & TextBlockFCode)) {
 			result = style::MonospaceFont();
-			if (result->size() != f->size() || result->flags() != f->flags()) {
-				result = style::font(f->size(), f->flags(), result->family());
+			if (result->size() != f->size()) {
+				result = style::font(f->size(), result->flags(), result->family());
 			}
 		} else {
 			if (flags & TextBlockFBold) {
@@ -2027,9 +2027,13 @@ private:
 					result = style::font(f->size(), f->flags(), result->family());
 				}
 			}
-			if (flags & TextBlockFItalic) result = result->italic();
-			if (flags & TextBlockFUnderline) result = result->underline();
-			if (flags & TextBlockFStrikeOut) result = result->strikeout();
+		}
+
+		if (flags & TextBlockFItalic) result = result->italic();
+		if (flags & TextBlockFUnderline) result = result->underline();
+		if (flags & TextBlockFStrikeOut) result = result->strikeout();
+
+		if (flags & TextBlockFSemibold) {
 			if (flags & TextBlockFTilde) { // tilde fix in OpenSans
 				result = st::semiboldFont;
 			}
