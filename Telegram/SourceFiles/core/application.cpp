@@ -175,6 +175,9 @@ void Application::run() {
 	if (!cMonospaceFont().isEmpty()) {
 		style::internal::CustomMonospaceFont = cMonospaceFont();
 	}
+	if (cUseSystemFont()) {
+		style::internal::UseSystemFont = cUseSystemFont();
+	}
 	style::internal::StartFonts();
 
 	ThirdParty::start();

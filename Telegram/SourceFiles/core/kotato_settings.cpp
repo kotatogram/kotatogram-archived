@@ -199,6 +199,10 @@ bool Manager::readCustomFile() {
 		ReadStringOption(o, "monospaced", [&](auto v) {
 			cSetMonospaceFont(v);
 		});
+
+		ReadBoolOption(o, "use_system_font", [&](auto v) {
+			cSetUseSystemFont(v);
+		});
 	});
 
 	ReadIntOption(settings, "sticker_height", [&](auto v) {
@@ -317,6 +321,7 @@ void Manager::writeDefaultFile() {
 	settingsFonts.insert(qsl("semibold"), qsl("Open Sans Semibold"));
 	settingsFonts.insert(qsl("semibold_is_bold"), false);
 	settingsFonts.insert(qsl("monospaced"), qsl("Consolas"));
+	settingsFonts.insert(qsl("use_system_font"), cUseSystemFont());
 
 	settings.insert(qsl("fonts"), settingsFonts);
 
@@ -374,6 +379,7 @@ void Manager::writeCurrentSettings() {
 	}
 
 	settingsFonts.insert(qsl("semibold_is_bold"), cSemiboldFontIsBold());
+	settingsFonts.insert(qsl("use_system_font"), cUseSystemFont());
 
 	settings.insert(qsl("fonts"), settingsFonts);
 
