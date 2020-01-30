@@ -36,7 +36,7 @@ QVector<QString> fontFamilies;
 QMap<uint32, FontData*> fontsMap;
 
 uint32 fontKey(int size, uint32 flags, int family) {
-	return (((uint32(family) << 10) | uint32(size)) << 4) | flags;
+	return (((uint32(family) << 12) | uint32(size)) << 6) | flags;
 }
 
 QString RemoveSemiboldFromName(const QString &familyName) {
@@ -170,8 +170,13 @@ QString Overrides[FontTypesCount];
 QString CustomMainFont;
 QString CustomSemiboldFont;
 bool CustomSemiboldIsBold = false;
+bool UseSystemFont = false;
 
 } // namespace
+
+bool GetUseSystemFont() {
+	return UseSystemFont;
+}
 
 void SetMainFont(const QString &familyName) {
 	CustomMainFont = familyName;
@@ -185,6 +190,10 @@ void SetSemiboldIsBold(bool isBold) {
 	CustomSemiboldIsBold = isBold;
 }
 
+void SetUseSystemFont(bool isSystemFont) {
+	UseSystemFont = isSystemFont;
+}
+
 void StartFonts() {
 	if (Started) {
 		return;
@@ -193,41 +202,43 @@ void StartFonts() {
 
 	style_InitFontsResource();
 
+	if (!UseSystemFont) {
 #ifndef DESKTOP_APP_USE_PACKAGED_FONTS
-	bool areGood[FontTypesCount] = { false };
-	for (auto i = 0; i != FontTypesCount; ++i) {
-		const auto name = FontTypeNames[i];
-		const auto flags = FontTypeFlags[i];
-		areGood[i] = LoadCustomFont(":/gui/fonts/" + name + ".ttf", name, flags);
-		Overrides[i] = name;
+		bool areGood[FontTypesCount] = { false };
+		for (auto i = 0; i != FontTypesCount; ++i) {
+			const auto name = FontTypeNames[i];
+			const auto flags = FontTypeFlags[i];
+			areGood[i] = LoadCustomFont(":/gui/fonts/" + name + ".ttf", name, flags);
+			Overrides[i] = name;
 #ifdef Q_OS_WIN
-		// Attempt to workaround a strange font bug with Open Sans Semibold not loading.
-		// See https://github.com/telegramdesktop/tdesktop/issues/3276 for details.
-		// Crash happens on "options.maxh / _t->_st->font->height" with "division by zero".
-		// In that place "_t->_st->font" is "semiboldFont" is "font(13 "Open Sans Semibold").
-		const auto fallback = FontTypeWindowsFallback[i];
-		if (!areGood[i]) {
-			if (ValidateFont(fallback, flags)) {
-				Overrides[i] = fallback;
-				UI_LOG(("Fonts Info: Using '%1' instead of '%2'.").arg(fallback).arg(name));
+			// Attempt to workaround a strange font bug with Open Sans Semibold not loading.
+			// See https://github.com/telegramdesktop/tdesktop/issues/3276 for details.
+			// Crash happens on "options.maxh / _t->_st->font->height" with "division by zero".
+			// In that place "_t->_st->font" is "semiboldFont" is "font(13 "Open Sans Semibold").
+			const auto fallback = FontTypeWindowsFallback[i];
+			if (!areGood[i]) {
+				if (ValidateFont(fallback, flags)) {
+					Overrides[i] = fallback;
+					UI_LOG(("Fonts Info: Using '%1' instead of '%2'.").arg(fallback).arg(name));
+				}
 			}
-		}
-		// Disable default fallbacks to Segoe UI, see:
-		// https://github.com/telegramdesktop/tdesktop/issues/5368
-		//
-		//QFont::insertSubstitution(name, fallback);
+			// Disable default fallbacks to Segoe UI, see:
+			// https://github.com/telegramdesktop/tdesktop/issues/5368
+			//
+			//QFont::insertSubstitution(name, fallback);
 #endif // Q_OS_WIN
-	}
+		}
 #endif // !DESKTOP_APP_USE_PACKAGED_FONTS
 #ifdef Q_OS_MAC
-	auto list = QStringList();
-	list.append(".SF NS Text");
-	list.append("Helvetica Neue");
-	list.append("Lucida Grande");
-	for (const auto &name : FontTypeNames) {
-		QFont::insertSubstitutions(name, list);
-	}
+		auto list = QStringList();
+		list.append(".SF NS Text");
+		list.append("Helvetica Neue");
+		list.append("Lucida Grande");
+		for (const auto &name : FontTypeNames) {
+			QFont::insertSubstitutions(name, list);
+		}
 #endif // Q_OS_MAC
+	}
 
 	if (!CustomMainFont.isEmpty() && ValidateFont(CustomMainFont)) {
 		Overrides[FontTypeRegular] = CustomMainFont;
@@ -286,11 +297,14 @@ int registerFontFamily(const QString &family) {
 }
 
 FontData::FontData(int size, uint32 flags, int family, Font *other)
-: f(ParseFamilyName(GetFontOverride(fontFamilies[family], flags)))
+: f()
 , m(f)
 , _size(size)
 , _flags(flags)
 , _family(family) {
+	const auto fontOverride = GetFontOverride(fontFamilies[family], flags);
+	const auto possibleEmptyOverride = GetPossibleEmptyOverride(fontFamilies[family], flags);
+
 	if (other) {
 		memcpy(modified, other, sizeof(modified));
 	} else {
@@ -298,11 +312,18 @@ FontData::FontData(int size, uint32 flags, int family, Font *other)
 	}
 	modified[_flags] = Font(this);
 
+	if (!UseSystemFont || !possibleEmptyOverride.isEmpty() || (_flags & FontMonospace)) {
+		f.setFamily(fontOverride);
+	} 
+
 	f.setPixelSize(size);
 	if (_flags & FontBold) {
 		f.setBold(true);
 	} else if (fontFamilies[family] == "Open Sans Semibold" && CustomSemiboldIsBold) {
 		f.setBold(true);
+	} else if (fontFamilies[family] == "Open Sans Semibold" && UseSystemFont
+		&& possibleEmptyOverride.isEmpty()) {
+		f.setWeight(QFont::DemiBold);
 #ifdef DESKTOP_APP_USE_PACKAGED_FONTS
 	} else if (fontFamilies[family] == "Open Sans Semibold") {
 		f.setWeight(QFont::DemiBold);
@@ -313,7 +334,7 @@ FontData::FontData(int size, uint32 flags, int family, Font *other)
 	f.setStrikeOut(_flags & FontStrikeOut);
 	f.setStyleStrategy(QFont::PreferQuality);
 
-	if (IsRealSemibold(GetFontOverride(fontFamilies[family], flags))) {
+	if (IsRealSemibold(fontOverride)) {
 		f.setStyleName("Semibold");
 	}
 
@@ -339,6 +360,10 @@ Font FontData::underline(bool set) const {
 
 Font FontData::strikeout(bool set) const {
 	return otherFlagsFont(FontStrikeOut, set);
+}
+
+Font FontData::monospace(bool set) const {
+	return otherFlagsFont(FontMonospace, set);
 }
 
 int FontData::size() const {
