@@ -173,6 +173,7 @@ QString CustomMainFont;
 QString CustomSemiboldFont;
 bool CustomSemiboldIsBold = false;
 bool UseSystemFont = false;
+bool UseOriginalMetrics = false;
 
 void StartFonts() {
 	if (Started) {
@@ -319,9 +320,21 @@ FontData::FontData(int size, uint32 flags, int family, Font *other)
 	}
 
 	m = QFontMetrics(f);
-	height = m.height();
-	ascent = m.ascent();
-	descent = m.descent();
+
+	if (UseOriginalMetrics) {
+		QFont originalFont(fontFamilies[family]);
+		originalFont.setPixelSize(size);
+		auto mOrig = QFontMetrics(originalFont);
+
+		height = mOrig.height();
+		ascent = mOrig.ascent();
+		descent = mOrig.descent();
+	} else {
+		height = m.height();
+		ascent = m.ascent();
+		descent = m.descent();
+	}
+
 	spacew = width(QLatin1Char(' '));
 	elidew = width("...");
 }
