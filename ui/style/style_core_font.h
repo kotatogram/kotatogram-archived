@@ -18,6 +18,7 @@ extern QString CustomMainFont;
 extern QString CustomSemiboldFont;
 extern bool CustomSemiboldIsBold;
 extern bool UseSystemFont;
+extern bool UseOriginalMetrics;
 
 void StartFonts();
 [[nodiscard]] QString GetFontOverride(const QString &familyName, int32 flags = 0);
