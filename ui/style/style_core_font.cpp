@@ -171,6 +171,7 @@ QString CustomMainFont;
 QString CustomSemiboldFont;
 bool CustomSemiboldIsBold = false;
 bool UseSystemFont = false;
+bool UseOriginalMetrics = false;
 
 } // namespace
 
@@ -192,6 +193,10 @@ void SetSemiboldIsBold(bool isBold) {
 
 void SetUseSystemFont(bool isSystemFont) {
 	UseSystemFont = isSystemFont;
+}
+
+void SetUseOriginalMetrics(bool isOriginal) {
+	UseOriginalMetrics = isOriginal;
 }
 
 void StartFonts() {
@@ -339,9 +344,21 @@ FontData::FontData(int size, uint32 flags, int family, Font *other)
 	}
 
 	m = QFontMetrics(f);
-	height = m.height();
-	ascent = m.ascent();
-	descent = m.descent();
+
+	if (UseOriginalMetrics) {
+		QFont originalFont(fontFamilies[family]);
+		originalFont.setPixelSize(size);
+		auto mOrig = QFontMetrics(originalFont);
+
+		height = mOrig.height();
+		ascent = mOrig.ascent();
+		descent = mOrig.descent();
+	} else {
+		height = m.height();
+		ascent = m.ascent();
+		descent = m.descent();
+	}
+
 	spacew = width(QLatin1Char(' '));
 	elidew = width("...");
 }
