@@ -29,6 +29,7 @@ private:
 	void resetToDefault();
 
 	object_ptr<Ui::Checkbox> _useSystemFont = { nullptr };
+	object_ptr<Ui::Checkbox> _useOriginalMetrics = { nullptr };
 	object_ptr<Ui::InputField> _mainFontName = { nullptr };
 	object_ptr<Ui::InputField> _semiboldFontName = { nullptr };
 	object_ptr<Ui::Checkbox> _semiboldIsBold = { nullptr };

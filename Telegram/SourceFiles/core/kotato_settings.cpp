@@ -205,6 +205,10 @@ bool Manager::readCustomFile() {
 		ReadBoolOption(o, "use_system_font", [&](auto v) {
 			cSetUseSystemFont(v);
 		});
+
+		ReadBoolOption(o, "use_original_metrics", [&](auto v) {
+			cSetUseOriginalMetrics(v);
+		});
 	});
 
 	ReadIntOption(settings, "sticker_height", [&](auto v) {
@@ -328,6 +332,7 @@ void Manager::writeDefaultFile() {
 	settingsFonts.insert(qsl("semibold_is_bold"), false);
 	settingsFonts.insert(qsl("monospaced"), qsl("Consolas"));
 	settingsFonts.insert(qsl("use_system_font"), cUseSystemFont());
+	settingsFonts.insert(qsl("use_original_metrics"), cUseOriginalMetrics());
 
 	settings.insert(qsl("fonts"), settingsFonts);
 
@@ -387,6 +392,7 @@ void Manager::writeCurrentSettings() {
 
 	settingsFonts.insert(qsl("semibold_is_bold"), cSemiboldFontIsBold());
 	settingsFonts.insert(qsl("use_system_font"), cUseSystemFont());
+	settingsFonts.insert(qsl("use_original_metrics"), cUseOriginalMetrics());
 
 	settings.insert(qsl("fonts"), settingsFonts);
 
