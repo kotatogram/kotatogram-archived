@@ -301,3 +301,4 @@ bool AddCustomReplace(QString from, QString to) {
 }
 
 bool gConfirmBeforeCall = false;
+bool gNoTaskbarFlashing = false;
