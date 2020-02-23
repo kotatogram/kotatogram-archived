@@ -307,6 +307,10 @@ bool Manager::readCustomFile() {
 	ReadBoolOption(settings, "confirm_before_calls", [&](auto v) {
 		cSetConfirmBeforeCall(v);
 	});
+
+	ReadBoolOption(settings, "no_taskbar_flash", [&](auto v) {
+		cSetNoTaskbarFlashing(v);
+	});
 	return true;
 }
 
@@ -346,6 +350,7 @@ void Manager::writeDefaultFile() {
 	settings.insert(qsl("chat_list_lines"), DialogListLines());
 	settings.insert(qsl("disable_up_edit"), cDisableUpEdit());
 	settings.insert(qsl("confirm_before_calls"), cConfirmBeforeCall());
+	settings.insert(qsl("no_taskbar_flash"), cNoTaskbarFlashing());
 
 	auto settingsScales = QJsonArray();
 	settings.insert(qsl("scales"), settingsScales);
@@ -406,6 +411,7 @@ void Manager::writeCurrentSettings() {
 	settings.insert(qsl("chat_list_lines"), DialogListLines());
 	settings.insert(qsl("disable_up_edit"), cDisableUpEdit());
 	settings.insert(qsl("confirm_before_calls"), cConfirmBeforeCall());
+	settings.insert(qsl("no_taskbar_flash"), cNoTaskbarFlashing());
 
 	auto settingsScales = QJsonArray();
 	auto currentScales = cInterfaceScales();
