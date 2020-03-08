@@ -78,12 +78,20 @@ void FeedLangTestingKey(int key) {
 
 MainWindow::MainWindow(not_null<Window::Controller*> controller)
 : Platform::MainWindow(controller) {
-	auto logo = Core::App().logo();
+	QImage iconImage(cWorkingDir() + "tdata/icon.png");
+
+	auto logo = iconImage.isNull()
+		? Core::App().logo()
+		: iconImage;
+
 	icon16 = logo.scaledToWidth(16, Qt::SmoothTransformation);
 	icon32 = logo.scaledToWidth(32, Qt::SmoothTransformation);
 	icon64 = logo.scaledToWidth(64, Qt::SmoothTransformation);
 
-	auto logoNoMargin = Core::App().logoNoMargin();
+	auto logoNoMargin = iconImage.isNull()
+		? Core::App().logoNoMargin()
+		: iconImage;
+
 	iconbig16 = logoNoMargin.scaledToWidth(16, Qt::SmoothTransformation);
 	iconbig32 = logoNoMargin.scaledToWidth(32, Qt::SmoothTransformation);
 	iconbig64 = logoNoMargin.scaledToWidth(64, Qt::SmoothTransformation);
